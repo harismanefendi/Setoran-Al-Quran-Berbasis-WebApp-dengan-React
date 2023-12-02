@@ -1,0 +1,18 @@
+{
+  "unique_setoran_id_1": {
+    "SetoranID": "unique_setoran_id_1",
+    "UserID": "unique_user_id_3",
+    "AyatID": "unique_ayat_id_1",
+    "File_Audio": "link_file_audio_siswa1",
+    "Waktu_Setoran": "2023-11-02 10:00:00",
+    "Status": "menunggu penilaian"
+  },
+  "unique_setoran_id_2": {
+    "SetoranID": "unique_setoran_id_2",
+    "UserID": "unique_user_id_3",
+    "AyatID": "unique_ayat_id_2",
+    "File_Audio": "link_file_audio_siswa2",
+    "Waktu_Setoran": "2023-11-02 11:00:00",
+    "Status": "dinilai"
+  }
+}

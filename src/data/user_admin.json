@@ -1,0 +1,25 @@
+{
+  "users": {
+    "unique_user_id_1": {
+      "UserID": "unique_user_id_1",
+      "Role": "admin",
+      "Nama": "Nama Admin",
+      "Email": "admin@example.com",
+      "Additional_Info": "Informasi tambahan untuk admin"
+    },
+    "unique_user_id_2": {
+      "UserID": "unique_user_id_2",
+      "Role": "guru",
+      "Nama": "Nama Guru",
+      "Email": "guru@example.com",
+      "Additional_Info": "Informasi tambahan untuk guru"
+    },
+    "unique_user_id_3": {
+      "UserID": "unique_user_id_3",
+      "Role": "siswa",
+      "Nama": "Nama Siswa",
+      "Email": "siswa@example.com",
+      "Additional_Info": "Informasi tambahan untuk siswa"
+    }
+  }
+}

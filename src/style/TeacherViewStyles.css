@@ -1,0 +1,26 @@
+/* TeacherViewStyles.css */
+.container {
+  max-width: 100%;
+}
+
+.table-header {
+  background-color: #f3f4f6; /* bg-gray-50 */
+  color: #374151; /* text-gray-700 */
+}
+
+.table-row {
+  background-color: #ffffff; /* bg-white */
+  border-bottom-width: 1px; /* border-b */
+}
+
+.icon-link {
+  display: flex;
+  align-items: center;
+  color: #3b82f6; /* text-blue-500 */
+}
+
+.icon {
+  width: 1.25rem; /* w-5 */
+  height: 1.25rem; /* h-5 */
+  margin-right: 0.5rem; /* mr-2 */
+}
