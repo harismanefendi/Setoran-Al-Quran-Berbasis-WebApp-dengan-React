@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { CSSTransition } from "react-transition-group";
+//import { CSSTransition } from "react-transition-group";
 import { useNavigate } from "react-router-dom";
-import "tailwindcss/tailwind.css"; // Pastikan telah mengimpor Tailwind CSS
+import "tailwindcss/tailwind.css";
+// Pastikan telah mengimpor Tailwind CSS
 
 function Home() {
   const [showAlert, setShowAlert] = useState(true);
@@ -19,12 +20,12 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="mt-4 text-center">
-        <h1 className="text-blue-500 font-bold text-6xl relative">
-          <span className="absolute top-0 left-0 -z-1 text-blue-900">
+        <h1 className="text-blue-800 font-bold text-6xl relative">
+          <span className="absolute top-0 left-0 -z-1 text-red-800">
             HSQOnline <br /> Hayyuk Setor Quran Online
           </span>
           <span className="text-blue-400">
-            HSQOnline <br /> Hayyuk Setor Quran Online
+            <span className="arabic-text">HSQOnline</span> <br /> <span className="arabic-text">Hayyuk Setor Quran Online</span>
           </span>
         </h1>
       </div>
