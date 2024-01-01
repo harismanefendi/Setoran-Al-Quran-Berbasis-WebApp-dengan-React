@@ -29,7 +29,7 @@ function AdminLogin() {
             const userData = snapshot.val();
             localStorage.setItem("user", JSON.stringify(userData));
             login(); // Memanggil fungsi login untuk mengatur status isAuthenticated menjadi true
-            navigate("/guru/login"); // Arahkan ke halaman home
+            navigate("/halaman-admin"); // Arahkan ke halaman home
           } else {
             console.log("No user data available");
           }
