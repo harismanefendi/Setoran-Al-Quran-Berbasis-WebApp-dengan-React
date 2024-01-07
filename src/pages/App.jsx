@@ -23,6 +23,7 @@ import FileUpload from "./FileUpload";
 import FeedbackSiswa from "./HomeSiswa/FeedbackSiswa";
 import HalamanAdmin from "./HomeAdmin/HalamanAdmin";
 import PanelSiswa from "./HomeAdmin/PanelSiswa";
+import HalamanKelas from "./HomeAdmin/HalamanKelas";
 
 function App() {
   return (
@@ -91,15 +92,8 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/halaman-admin"
-            element={
-              <PrivateRoute>
-                <HalamanAdmin />
-              </PrivateRoute>
-            }
-          />
 
+          <Route path="/halaman-admin" element={<HalamanAdmin />} />
           <Route
             path="/setoran"
             element={
@@ -113,6 +107,7 @@ function App() {
           <Route path="/*" element={<NotFound />} />
           <Route path="/halaman-admin/panel-admin" element={<AdminPage />} />
           <Route path="/halaman-admin/panel-siswa" element={<PanelSiswa />} />
+          <Route path="/kelas/:kelas" element={<HalamanKelas />} />
         </Routes>
       </Router>
     </AuthProvider>
