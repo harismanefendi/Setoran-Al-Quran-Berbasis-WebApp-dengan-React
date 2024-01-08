@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ref, get, getDatabase, update, remove } from "firebase/database";
+import { useParams } from "react-router-dom";
 
-const PanelSiswa = () => {
+const Setoran = () => {
   const [students, setStudents] = useState([]);
+  const { kelas } = useParams();
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -107,4 +109,4 @@ const PanelSiswa = () => {
   );
 };
 
-export default PanelSiswa;
+export default Setoran;

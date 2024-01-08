@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Import Link
 
 const HalamanAdmin = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showKelasDropdown, setShowKelasDropdown] = useState(false);
+  const [showSetoranDropdown, setShowSetoranDropdown] = useState(false);
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+  const toggleKelasDropdown = () => {
+    setShowKelasDropdown(!showKelasDropdown);
+    setShowSetoranDropdown(false); // Tutup dropdown Setoran jika terbuka
+  };
+
+  const toggleSetoranDropdown = () => {
+    setShowSetoranDropdown(!showSetoranDropdown);
+    setShowKelasDropdown(false); // Tutup dropdown Kelas jika terbuka
   };
 
   return (
@@ -15,14 +22,8 @@ const HalamanAdmin = () => {
           <a href="/halaman-admin/panel-admin">Guru</a>
         </li>
         <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
-          <a href="/halaman-admin/panel-siswa">Siswa</a>
-        </li>
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
-          <a href="#profil">Profil</a>
-        </li>
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded relative">
-          <button onClick={toggleDropdown}>Kelas</button>
-          {showDropdown && (
+          <button onClick={toggleKelasDropdown}>Kelas</button>
+          {showKelasDropdown && (
             <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg">
               {[1, 2, 3, 4, 5, 6].map((kelas) => (
                 <li key={kelas} className="hover:bg-blue-100 p-2">
@@ -31,6 +32,22 @@ const HalamanAdmin = () => {
               ))}
             </ul>
           )}
+        </li>
+        {/* <a href="/halaman-admin/panel-siswa">Siswa</a> */}
+        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+          <button onClick={toggleSetoranDropdown}>Setoran</button>
+          {showSetoranDropdown && (
+            <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg">
+              {[1, 2, 3, 4, 5, 6].map((kelas) => (
+                <li key={kelas} className="hover:bg-blue-100 p-2">
+                  <Link to={`/setoran/${kelas}`}>Kelas {kelas}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+          <a href="#profil">Profil</a>
         </li>
       </ul>
     </nav>

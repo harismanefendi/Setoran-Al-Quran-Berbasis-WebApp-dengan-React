@@ -61,9 +61,9 @@ const HalamanGuru = () => {
                 <source src={setoran.uploadedFileUrl} type="video/mp4" />
               </video>
             </div>
-            <div className="flex justify-end mt-2">
+            <div className="flex justify-end mt-2 font-semibold">
               <button onClick={() => handleFeedback(setoran.emailKey, setoran.id)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
-                Terima
+                Keputusan
               </button>
               {/* Tombol untuk feedback "Ulangi" jika diperlukan */}
             </div>

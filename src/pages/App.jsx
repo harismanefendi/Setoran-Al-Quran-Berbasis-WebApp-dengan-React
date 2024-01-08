@@ -22,8 +22,9 @@ import RegisterGuru from "./Register/RegisterGuru";
 import FileUpload from "./FileUpload";
 import FeedbackSiswa from "./HomeSiswa/FeedbackSiswa";
 import HalamanAdmin from "./HomeAdmin/HalamanAdmin";
-import PanelSiswa from "./HomeAdmin/PanelSiswa";
+import Setoran from "./HomeAdmin/Setoran";
 import HalamanKelas from "./HomeAdmin/HalamanKelas";
+import DashboardGuru from "./HomeGuru/DashboardGuru";
 
 function App() {
   return (
@@ -51,14 +52,7 @@ function App() {
           />
 
           {/* Rute yang memerlukan autentikasi */}
-          <Route
-            path="guru/login"
-            element={
-              <PrivateRoute>
-                <HalamanGuru />
-              </PrivateRoute>
-            }
-          />
+
           <Route
             path="/home/login"
             element={
@@ -106,8 +100,11 @@ function App() {
 
           <Route path="/*" element={<NotFound />} />
           <Route path="/halaman-admin/panel-admin" element={<AdminPage />} />
-          <Route path="/halaman-admin/panel-siswa" element={<PanelSiswa />} />
+
           <Route path="/kelas/:kelas" element={<HalamanKelas />} />
+          <Route path="/guru/login" element={<DashboardGuru />} />
+          <Route path="/guru/kelas" element={<HalamanGuru />} />
+          <Route path="/setoran/:kelas" element={<Setoran />} />
         </Routes>
       </Router>
     </AuthProvider>
