@@ -1,110 +1,99 @@
 import React, { useState, useEffect } from "react";
-import { ref, get, getDatabase, update, remove } from "firebase/database";
+import { ref as dbRef, db, set } from "../../config/firebase/index";
+import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";
+import "tailwindcss/tailwind.css";
 
 const Setoran = () => {
-  const [students, setStudents] = useState([]);
-  const { kelas } = useParams();
+  const [setoranList, setSetoranList] = useState([]);
+  const { kelas } = useParams(); // Mengambil kelas dari URL
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      const db = getDatabase();
-      const studentsRef = ref(db, "siswa");
-      try {
-        const snapshot = await get(studentsRef);
-        if (snapshot.exists()) {
-          const studentsData = snapshot.val();
-          const studentsArray = Object.entries(studentsData).map(([key, value]) => ({ uid: key, ...value }));
-          setStudents(studentsArray);
+    const setoranRef = dbRef(db, "setoran");
+    onValue(setoranRef, (snapshot) => {
+      let setoranArray = [];
+      const data = snapshot.val();
+      if (data) {
+        for (const email in data) {
+          for (const id in data[email]) {
+            const setoran = data[email][id];
+            if (setoran.kelas === kelas) {
+              // Menyaring berdasarkan kelas
+              setoranArray.push({
+                id,
+                emailKey: email,
+                ...setoran,
+              });
+            }
+          }
         }
-      } catch (error) {
-        console.error("Error fetching students:", error);
+        setSetoranList(setoranArray);
       }
-    };
+    });
+  }, [kelas]); // Menambah kelas sebagai dependency
 
-    fetchStudents();
-  }, []);
+  const updateStatus = (emailKey, idSetoran, newStatus, setoran) => {
+    const setoranRef = dbRef(db, `setoran/${emailKey}/${idSetoran}`);
+    set(setoranRef, { ...setoran, status: newStatus })
+      .then(() => {
+        alert(`Status telah diupdate menjadi: ${newStatus}`);
+      })
+      .catch((error) => console.error("Error updating status:", error));
+  };
 
-  const handleUpdate = async (uid) => {
-    // Retrieve the current data of the student
-    const currentStudent = students.find((student) => student.uid === uid);
-    if (!currentStudent) {
-      alert("Student not found");
-      return;
-    }
+  const handleFeedback = (emailKey, idSetoran, setoran) => {
+    const action = window.confirm("Apakah setoran ini diterima? Tekan OK untuk 'Diterima' atau Cancel untuk 'Ulangi'");
 
-    // Prompt the admin to enter new values
-    let newName = prompt("Enter new name:", currentStudent.nama);
-    let newEmail = prompt("Enter new email:", currentStudent.email);
-    let newClass = prompt("Enter new class:", currentStudent.kelas);
-
-    // Check if the admin actually entered some data
-    if (newName !== null && newEmail !== null && newClass !== null) {
-      const db = getDatabase();
-      const studentRef = ref(db, `siswa/${uid}`);
-
-      try {
-        await update(studentRef, { nama: newName, email: newEmail, kelas: newClass });
-        console.log("Student updated successfully");
-
-        // Update local state to reflect the changes
-        setStudents((prevStudents) => prevStudents.map((student) => (student.uid === uid ? { ...student, nama: newName, email: newEmail, kelas: newClass } : student)));
-      } catch (error) {
-        console.error("Error updating student:", error);
+    if (action) {
+      // Update status to 'Diterima' and proceed to get feedback
+      updateStatus(emailKey, idSetoran, "Diterima", setoran);
+      const rate = prompt("Berikan rating untuk setoran ini (1-5):");
+      const comment = prompt("Tambahkan komentar untuk setoran ini:");
+      if (rate && comment) {
+        saveFeedback(emailKey, idSetoran, rate, comment);
       }
+    } else {
+      // Update status to 'Diulangi'
+      updateStatus(emailKey, idSetoran, "Diulangi", setoran);
     }
   };
 
-  const handleDelete = async (uid) => {
-    // Show a confirmation dialog
-    const isConfirmed = confirm("Are you sure you want to delete this student?");
-
-    // Proceed with deletion only if confirmed
-    if (isConfirmed) {
-      const db = getDatabase();
-      const studentRef = ref(db, `siswa/${uid}`);
-      try {
-        await remove(studentRef);
-        console.log("Student deleted successfully");
-
-        // Update local state to remove the deleted student
-        setStudents((prevStudents) => prevStudents.filter((student) => student.uid !== uid));
-      } catch (error) {
-        console.error("Error deleting student:", error);
-      }
-    }
+  const saveFeedback = (emailKey, idSetoran, rate, comment) => {
+    const feedbackRef = dbRef(db, `feedbackSetoran/${emailKey}/${idSetoran}`);
+    set(feedbackRef, { rating: rate, komentar: comment })
+      .then(() => alert("Feedback berhasil disimpan"))
+      .catch((error) => console.error("Error menyimpan feedback:", error));
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-8">
-      <h1 className="text-2xl font-bold mb-4">Halaman Siswa</h1>
-      <table className="min-w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2">Nama</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Kelas</th>
-            <th className="p-2">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student) => (
-            <tr key={student.uid} className="border-b">
-              <td className="p-2">{student.nama}</td>
-              <td className="p-2">{student.email}</td>
-              <td className="p-2">{student.kelas}</td>
-              <td className="p-2">
-                <button onClick={() => handleUpdate(student.uid)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
-                  Edit
-                </button>
-                <button onClick={() => handleDelete(student.uid)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                  Hapus
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="w-full max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+      <div className="text-center mb-6">
+        <p className="text-2xl font-semibold text-gray-800">Daftar Setoran Siswa Kelas {kelas}</p>
+      </div>
+      <div>
+        {setoranList.map((setoran) => (
+          <div key={setoran.id} className="border-b border-gray-200 py-4 last:border-b-0">
+            <p className="text-gray-700 font-medium">Nama: {setoran.namaPeserta}</p>
+            <p className="text-gray-600">Juz: {setoran.juz}</p>
+            <p className="text-gray-600">Input Value: {setoran.inputValue}</p>
+            <p className="text-gray-600">
+              Surat: {setoran.suratAwal} ayat {setoran.ayatAwal} sampai {setoran.suratAkhir} ayat {setoran.ayatAkhir}
+            </p>
+            <p className="text-gray-600">Status: {setoran.status}</p>
+            <div className="my-3 flex justify-center">
+              <video width="320" height="240" controls>
+                <source src={setoran.uploadedFileUrl} type="video/mp4" />
+              </video>
+            </div>
+            <div className="flex justify-end mt-2 font-semibold">
+              <button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
+                Beri Feedback
+              </button>
+              {/* Tombol atau aksi tambahan jika diperlukan */}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

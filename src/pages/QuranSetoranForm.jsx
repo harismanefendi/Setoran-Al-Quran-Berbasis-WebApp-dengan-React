@@ -19,6 +19,8 @@ const QuranSetoranForm = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
+  const [status, setStatus] = useState("Belum Diperiksa");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,6 +80,7 @@ const QuranSetoranForm = () => {
       juz,
       namaUstadz,
       uploadedFileUrl,
+      status,
     };
 
     const setoranRef = dbRef(db, `setoran/${emailKey}`);
@@ -190,6 +193,13 @@ const QuranSetoranForm = () => {
             <option value="5">Juz 5</option>
             {/* ... Tambahkan opsi lain untuk Juz 3 - 30 */}
           </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="status" className="block text-gray-600">
+            Status:
+          </label>
+          <input type="text" id="status" value={status} className="w-full px-4 py-2 border rounded focus:outline-none" readOnly />
         </div>
 
         <div className="mb-4">
