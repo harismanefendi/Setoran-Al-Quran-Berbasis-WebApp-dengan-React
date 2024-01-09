@@ -25,6 +25,8 @@ import HalamanAdmin from "./HomeAdmin/HalamanAdmin";
 import Setoran from "./HomeAdmin/Setoran";
 import HalamanKelas from "./HomeAdmin/HalamanKelas";
 import DashboardGuru from "./HomeGuru/DashboardGuru";
+import SetoranDiterima from "./HomeGuru/SetoranDiterima";
+import SetoranDiulangi from "./HomeGuru/SetoranDiulangi";
 
 function App() {
   return (
@@ -105,6 +107,8 @@ function App() {
           <Route path="/guru/login" element={<DashboardGuru />} />
           <Route path="/guru/kelas" element={<HalamanGuru />} />
           <Route path="/setoran/:kelas" element={<Setoran />} />
+          <Route path="/setoran/diterima/:kelas" element={<SetoranDiterima />} />
+          <Route path="/setoran/diulangi/:kelas" element={<SetoranDiulangi />} />
         </Routes>
       </Router>
     </AuthProvider>

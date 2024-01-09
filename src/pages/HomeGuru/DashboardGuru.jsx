@@ -2,68 +2,93 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const DashboardGuru = () => {
-  const [showMainDropdown, setShowMainDropdown] = useState(false);
-  const [showAcceptedDropdown, setShowAcceptedDropdown] = useState(false);
-  const [showRepeatedDropdown, setShowRepeatedDropdown] = useState(false);
+  const [selectedDropdown, setSelectedDropdown] = useState(null);
+  const [isMainOpen, setIsMainOpen] = useState(false);
+  const [isAcceptedOpen, setIsAcceptedOpen] = useState(false);
+  const [isRepeatedOpen, setIsRepeatedOpen] = useState(false);
 
-  const toggleMainDropdown = () => {
-    setShowMainDropdown(!showMainDropdown);
-    // Close other dropdowns
-    setShowAcceptedDropdown(false);
-    setShowRepeatedDropdown(false);
+  const dropdownOptions = ["main", "accepted", "repeated"];
+
+  const handleMainClick = () => {
+    setIsMainOpen(!isMainOpen);
+    setIsAcceptedOpen(false);
+    setIsRepeatedOpen(false);
   };
 
-  const toggleAcceptedDropdown = (e) => {
-    e.stopPropagation(); // Prevents click event from bubbling up to parent elements
-    setShowAcceptedDropdown(!showAcceptedDropdown);
+  const handleAcceptedClick = () => {
+    setIsMainOpen(false);
+    setIsAcceptedOpen(!isAcceptedOpen);
+    setIsRepeatedOpen(false);
   };
 
-  const toggleRepeatedDropdown = (e) => {
-    e.stopPropagation(); // Prevents click event from bubbling up to parent elements
-    setShowRepeatedDropdown(!showRepeatedDropdown);
+  const handleRepeatedClick = () => {
+    setIsMainOpen(false);
+    setIsAcceptedOpen(false);
+    setIsRepeatedOpen(!isRepeatedOpen);
+  };
+
+  const closeAllDropdowns = () => {
+    setIsMainOpen(false);
+    setIsAcceptedOpen(false);
+    setIsRepeatedOpen(false);
+    setSelectedDropdown(null);
+  };
+
+  const handleDropdownSelection = (selectedItem, dropdownType) => {
+    setSelectedDropdown(selectedItem);
+    console.log(`${dropdownType} Dropdown:`, selectedItem);
+    closeAllDropdowns();
   };
 
   return (
     <nav className="bg-blue-500 text-white p-4">
-      <ul className="flex justify-between max-w-4xl mx-auto">
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded relative">
-          <button onClick={toggleMainDropdown}>Setoran</button>
-          {showMainDropdown && (
-            <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg">
+      <ul className="flex flex-col sm:flex-row justify-between max-w-4xl mx-auto">
+        <li className={`relative`}>
+          <button onClick={handleMainClick}>{`Setoran Masuk`}</button>
+          {isMainOpen && (
+            <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 1 }}>
               {[1, 2, 3, 4, 5, 6].map((kelas) => (
                 <li key={kelas} className="hover:bg-blue-100 p-2">
-                  <Link to={`/setoran/kelas/${kelas}`}>Kelas {kelas}</Link>
+                  <Link to={`/setoran/${kelas}`} onClick={() => handleDropdownSelection(dropdownOptions[0], "Main")}>
+                    Kelas {kelas}
+                  </Link>
                 </li>
               ))}
-              <li className="hover:bg-blue-100 p-2 relative">
-                <button onClick={toggleAcceptedDropdown}>Setoran Diterima</button>
-                {showAcceptedDropdown && (
-                  <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg left-full top-0">
-                    {[1, 2, 3, 4, 5, 6].map((kelas) => (
-                      <li key={kelas} className="hover:bg-blue-100 p-2">
-                        <Link to={`/setoran/diterima/kelas/${kelas}`}>Kelas {kelas}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-              <li className="hover:bg-blue-100 p-2 relative">
-                <button onClick={toggleRepeatedDropdown}>Setoran Diulangi</button>
-                {showRepeatedDropdown && (
-                  <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg left-full top-0">
-                    {[1, 2, 3, 4, 5, 6].map((kelas) => (
-                      <li key={kelas} className="hover:bg-blue-100 p-2">
-                        <Link to={`/setoran/diulangi/kelas/${kelas}`}>Kelas {kelas}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
             </ul>
           )}
         </li>
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
-          <Link to="/profile">Profil</Link>
+        <li className={`relative`}>
+          <button onClick={handleAcceptedClick}>{`Setoran Diterima`}</button>
+          {isAcceptedOpen && (
+            <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 2 }}>
+              {[1, 2, 3, 4, 5, 6].map((kelas) => (
+                <li key={kelas} className="hover:bg-blue-100 p-2">
+                  <Link to={`/setoran/diterima/${kelas}`} onClick={() => handleDropdownSelection(dropdownOptions[0], "Accepted")}>
+                    Kelas {kelas}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+        <li className={`relative`}>
+          <button onClick={handleRepeatedClick}>{`Setoran Diulangi`}</button>
+          {isRepeatedOpen && (
+            <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 3 }}>
+              {[1, 2, 3, 4, 5, 6].map((kelas) => (
+                <li key={kelas} className="hover:bg-blue-100 p-2">
+                  <Link to={`/setoran/diulangi/${kelas}`} onClick={() => handleDropdownSelection(dropdownOptions[0], "Repeated")}>
+                    Kelas {kelas}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+        <li>
+          <Link to="/profile" onClick={closeAllDropdowns}>
+            Profil
+          </Link>
         </li>
       </ul>
     </nav>
