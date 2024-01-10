@@ -1,23 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
-    nama: "",
+    name: "",
     email: "",
     kelas: "",
   });
   const navigate = useNavigate();
   const kelasOptions = ["1", "2", "3", "4", "5", "6"];
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("user"); // Menggunakan key "user"
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const storedUserData = JSON.parse(storedUser);
-      setProfile({
-        ...storedUserData,
-        email: storedUserData.email.replace(",", "."), // Sesuaikan format email jika diperlukan
-      });
+      const emailKey = storedUserData.email.replace(/[.$#[\]]/g, ",");
+      const db = getDatabase();
+      const userRef = ref(db, "siswa/" + emailKey);
+
+      onValue(
+        userRef,
+        (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            setProfile({
+              ...data,
+              email: data.email.replace(",", "."),
+            });
+          }
+        },
+        {
+          onlyOnce: true,
+        }
+      );
     }
   }, []);
 
@@ -54,9 +70,9 @@ function EditProfile() {
             </label>
             <input
               type="text"
-              id="nama"
-              name="nama"
-              value={profile.nama}
+              id="name"
+              name="name"
+              value={profile.name}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required

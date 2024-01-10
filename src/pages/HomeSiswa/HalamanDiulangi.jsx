@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
 
-function FeedbackSiswa() {
+function HalamanDiulangi() {
   const [feedbackList, setFeedbackList] = useState([]);
   const userEmail = JSON.parse(localStorage.getItem("user")).email;
 
@@ -15,15 +15,17 @@ function FeedbackSiswa() {
       if (feedbackSnapshot.exists()) {
         get(setoranRef).then((setoranSnapshot) => {
           if (setoranSnapshot.exists()) {
-            // Gabungkan data feedback dengan data setoran
             const feedbackData = feedbackSnapshot.val();
             const setoranData = setoranSnapshot.val();
-            const combinedData = Object.keys(feedbackData).map((key) => {
-              return {
-                ...setoranData[key], // Pertama ambil data setoran
-                ...feedbackData[key], // Kemudian gabungkan dengan data feedback
-              };
-            });
+            const combinedData = Object.keys(feedbackData).reduce((acc, key) => {
+              if (setoranData[key] && setoranData[key].status === "Diulangi") {
+                acc.push({
+                  ...setoranData[key],
+                  ...feedbackData[key],
+                });
+              }
+              return acc;
+            }, []);
             setFeedbackList(combinedData);
           }
         });
@@ -66,10 +68,10 @@ function FeedbackSiswa() {
           </div>
         ))
       ) : (
-        <p className="text-center text-gray-600">Belum ada feedback.</p>
+        <p className="text-center text-gray-600">Belum ada feedback untuk setoran yang diulangi.</p>
       )}
     </div>
   );
 }
 
-export default FeedbackSiswa;
+export default HalamanDiulangi;

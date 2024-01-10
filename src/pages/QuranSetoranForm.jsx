@@ -23,6 +23,15 @@ const QuranSetoranForm = () => {
 
   const navigate = useNavigate();
 
+  const juzOptions = [];
+  for (let i = 1; i <= 30; i++) {
+    juzOptions.push(
+      <option key={i} value={i}>
+        Juz {i}
+      </option>
+    );
+  }
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.email) {
@@ -32,7 +41,7 @@ const QuranSetoranForm = () => {
       const unsubscribe = onValue(userRef, (snapshot) => {
         if (snapshot.exists()) {
           const userData = snapshot.val();
-          setNamaPeserta(userData.nama || "");
+          setNamaPeserta(userData.name || "");
           setEmail(userData.email.replace(",", "."));
           setKelas(userData.kelas || "");
         }
@@ -186,12 +195,7 @@ const QuranSetoranForm = () => {
             Pilihan Juz:
           </label>
           <select id="juz" value={juz} onChange={(e) => setJuz(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
-            <option value="1">Juz 1</option>
-            <option value="2">Juz 2</option>
-            <option value="3">Juz 3</option>
-            <option value="4">Juz 4</option>
-            <option value="5">Juz 5</option>
-            {/* ... Tambahkan opsi lain untuk Juz 3 - 30 */}
+            {juzOptions}
           </select>
         </div>
 

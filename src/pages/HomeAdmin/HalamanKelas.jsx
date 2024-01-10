@@ -4,21 +4,17 @@ import { useParams } from "react-router-dom";
 
 const HalamanKelas = () => {
   const [siswa, setSiswa] = useState([]);
-  const { kelas } = useParams(); // Dipanggil di bagian atas komponen
+  const { kelas } = useParams();
 
   useEffect(() => {
-    console.log("Kelas saat ini:", kelas);
-
     const fetchSiswa = async () => {
       const db = getDatabase();
-      const siswaRef = ref(db, "siswa"); // Path ke data siswa
+      const siswaRef = ref(db, "siswa");
       try {
         const snapshot = await get(siswaRef);
         if (snapshot.exists()) {
           const siswaData = snapshot.val();
-          console.log("Data siswa dari Firebase:", siswaData);
           const siswaArray = Object.values(siswaData).filter((s) => s.kelas === kelas);
-          console.log(`Siswa di kelas ${kelas}:`, siswaArray);
           setSiswa(siswaArray);
         }
       } catch (error) {
@@ -27,31 +23,23 @@ const HalamanKelas = () => {
     };
 
     fetchSiswa();
-  }, [kelas]); // Dependensi useEffect
+  }, [kelas]);
 
   const handleEdit = async (uid) => {
-    // Retrieve the current data of the student
-    const currentStudent = siswa.find((student) => student.uid === uid);
+    const currentStudent = siswa.find((student) => student.email.replace(/[.$#[\]]/g, ",") === uid);
     if (!currentStudent) {
       alert("Student not found");
       return;
     }
 
-    // Prompt the admin to enter new values
-    let newName = prompt("Enter new name:", currentStudent.nama);
-    let newEmail = prompt("Enter new email:", currentStudent.email);
-
-    // Check if the admin actually entered some data
-    if (newName !== null && newEmail !== null) {
+    let newName = prompt("Enter new name:", currentStudent.name);
+    if (newName !== null && newName !== "") {
       const db = getDatabase();
-      const studentRef = ref(db, `siswa/${uid}`);
+      const studentRef = ref(db, `siswa/${uid.replace(/[.$#[\]]/g, ",")}`);
 
       try {
-        await update(studentRef, { nama: newName, email: newEmail });
-        console.log("Student updated successfully");
-
-        // Update local state to reflect the changes
-        setSiswa((prevSiswa) => prevSiswa.map((student) => (student.uid === uid ? { ...student, nama: newName, email: newEmail } : student)));
+        await update(studentRef, { name: newName });
+        setSiswa((prevSiswa) => prevSiswa.map((student) => (student.email.replace(/[.$#[\]]/g, ",") === uid ? { ...student, name: newName } : student)));
       } catch (error) {
         console.error("Error updating student:", error);
       }
@@ -59,19 +47,13 @@ const HalamanKelas = () => {
   };
 
   const handleDelete = async (uid) => {
-    // Show a confirmation dialog
     const isConfirmed = confirm("Are you sure you want to delete this student?");
-
-    // Proceed with deletion only if confirmed
     if (isConfirmed) {
       const db = getDatabase();
-      const studentRef = ref(db, `siswa/${uid}`);
+      const studentRef = ref(db, `siswa/${uid.replace(/[.$#[\]]/g, ",")}`);
       try {
         await remove(studentRef);
-        console.log("Student deleted successfully");
-
-        // Update local state to remove the deleted student
-        setSiswa((prevSiswa) => prevSiswa.filter((student) => student.uid !== uid));
+        setSiswa((prevSiswa) => prevSiswa.filter((student) => student.email.replace(/[.$#[\]]/g, ",") !== uid));
       } catch (error) {
         console.error("Error deleting student:", error);
       }
@@ -84,21 +66,21 @@ const HalamanKelas = () => {
       <table className="min-w-full">
         <thead>
           <tr className="bg-gray-200">
-            <th className="p-2">Nama</th>
+            <th className="p-2">Name</th>
             <th className="p-2">Email</th>
             <th className="p-2">Aksi</th>
           </tr>
         </thead>
         <tbody>
           {siswa.map((s) => (
-            <tr key={s.uid} className="border-b">
-              <td className="p-2">{s.nama}</td>
+            <tr key={s.email.replace(/[.$#[\]]/g, ",")} className="border-b">
+              <td className="p-2">{s.name}</td>
               <td className="p-2">{s.email}</td>
               <td className="p-2">
-                <button onClick={() => handleEdit(s.uid)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                <button onClick={() => handleEdit(s.email.replace(/[.$#[\]]/g, ","))} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                   Edit
                 </button>
-                <button onClick={() => handleDelete(s.uid)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={() => handleDelete(s.email.replace(/[.$#[\]]/g, ","))} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                   Delete
                 </button>
               </td>

@@ -41,9 +41,9 @@ const DashboardGuru = () => {
   };
 
   return (
-    <nav className="bg-blue-500 text-white p-4">
-      <ul className="flex flex-col sm:flex-row justify-between max-w-4xl mx-auto">
-        <li className={`relative`}>
+    <nav className="bg-blue-500 text-white text-2xl p-4">
+      <ul className=" flex flex-col sm:flex-row justify-between max-w-4xl mx-auto">
+        <li className={`relative p-2 hover:bg-blue-600`}>
           <button onClick={handleMainClick}>{`Setoran Masuk`}</button>
           {isMainOpen && (
             <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 1 }}>
@@ -57,7 +57,7 @@ const DashboardGuru = () => {
             </ul>
           )}
         </li>
-        <li className={`relative`}>
+        <li className={`relative p-2`}>
           <button onClick={handleAcceptedClick}>{`Setoran Diterima`}</button>
           {isAcceptedOpen && (
             <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 2 }}>
@@ -71,7 +71,7 @@ const DashboardGuru = () => {
             </ul>
           )}
         </li>
-        <li className={`relative`}>
+        <li className={`relative p-2`}>
           <button onClick={handleRepeatedClick}>{`Setoran Diulangi`}</button>
           {isRepeatedOpen && (
             <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 3 }}>
@@ -85,7 +85,7 @@ const DashboardGuru = () => {
             </ul>
           )}
         </li>
-        <li>
+        <li className="p-2">
           <Link to="/profile" onClick={closeAllDropdowns}>
             Profil
           </Link>

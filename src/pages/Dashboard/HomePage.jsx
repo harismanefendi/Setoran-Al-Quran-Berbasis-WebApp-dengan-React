@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link untuk mengarahkan ke halaman lain
-
+import "../../style.css";
 const HomePage = () => {
   return (
     <div className="flex justify-center items-center h-screen">

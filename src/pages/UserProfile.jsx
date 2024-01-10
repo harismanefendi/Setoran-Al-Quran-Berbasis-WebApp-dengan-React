@@ -23,7 +23,7 @@ function UserProfile() {
         if (snapshot.exists()) {
           const data = snapshot.val();
           setUserData({
-            displayName: data.nama || "Nama Tidak Diketahui",
+            displayName: data.name || "Nama Tidak Diketahui",
             email: data.email.replace(",", "."),
             kelas: data.kelas || "Kelas Tidak Diketahui",
           });

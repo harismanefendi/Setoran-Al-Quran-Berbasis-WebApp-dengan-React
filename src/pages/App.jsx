@@ -8,7 +8,7 @@ import AdminLogin from "./Login/AdminLogin";
 import GuruLogin from "./Login/GuruLogin";
 import Login from "./Login/Login";
 import Menu from "./Menu";
-import UserProfile from "./UserProfil";
+import UserProfile from "./UserProfile";
 import NotFound from "./NotFound";
 import Register from "./Register/Register";
 import QuranSetoranForm from "./QuranSetoranForm";
@@ -27,6 +27,9 @@ import HalamanKelas from "./HomeAdmin/HalamanKelas";
 import DashboardGuru from "./HomeGuru/DashboardGuru";
 import SetoranDiterima from "./HomeGuru/SetoranDiterima";
 import SetoranDiulangi from "./HomeGuru/SetoranDiulangi";
+import HalamanDiterima from "./HomeSiswa/HalamanDiterima";
+import HalamanDiulangi from "./HomeSiswa/HalamanDiulangi";
+import Layout from "./HomeGuru/Layout";
 
 function App() {
   return (
@@ -80,14 +83,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/edit-profile"
-            element={
-              <PrivateRoute>
-                <EditProfile />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/edit-profile" element={<EditProfile />} />
 
           <Route path="/halaman-admin" element={<HalamanAdmin />} />
           <Route
@@ -107,8 +103,26 @@ function App() {
           <Route path="/guru/login" element={<DashboardGuru />} />
           <Route path="/guru/kelas" element={<HalamanGuru />} />
           <Route path="/setoran/:kelas" element={<Setoran />} />
-          <Route path="/setoran/diterima/:kelas" element={<SetoranDiterima />} />
-          <Route path="/setoran/diulangi/:kelas" element={<SetoranDiulangi />} />
+          <Route path="/halaman-diterima" element={<HalamanDiterima />} />
+          <Route path="/halaman-diulangi" element={<HalamanDiulangi />} />
+          {/* HomeGuru */}
+
+          <Route
+            path="/setoran/diterima:kelas"
+            element={
+              <Layout>
+                <SetoranDiterima />
+              </Layout>
+            }
+          />
+          <Route
+            path="/setoran/diulangi:kelas"
+            element={
+              <Layout>
+                <SetoranDiulangi />
+              </Layout>
+            }
+          />
         </Routes>
       </Router>
     </AuthProvider>

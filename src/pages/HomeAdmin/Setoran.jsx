@@ -6,7 +6,7 @@ import "tailwindcss/tailwind.css";
 
 const Setoran = () => {
   const [setoranList, setSetoranList] = useState([]);
-  const { kelas } = useParams(); // Mengambil kelas dari URL
+  const { kelas } = useParams();
 
   useEffect(() => {
     const setoranRef = dbRef(db, "setoran");
@@ -18,7 +18,6 @@ const Setoran = () => {
           for (const id in data[email]) {
             const setoran = data[email][id];
             if (setoran.kelas === kelas) {
-              // Menyaring berdasarkan kelas
               setoranArray.push({
                 id,
                 emailKey: email,
@@ -30,7 +29,7 @@ const Setoran = () => {
         setSetoranList(setoranArray);
       }
     });
-  }, [kelas]); // Menambah kelas sebagai dependency
+  }, [kelas]);
 
   const updateStatus = (emailKey, idSetoran, newStatus, setoran) => {
     const setoranRef = dbRef(db, `setoran/${emailKey}/${idSetoran}`);
@@ -43,9 +42,7 @@ const Setoran = () => {
 
   const handleFeedback = (emailKey, idSetoran, setoran) => {
     const action = window.confirm("Apakah setoran ini diterima? Tekan OK untuk 'Diterima' atau Cancel untuk 'Ulangi'");
-
     if (action) {
-      // Update status to 'Diterima' and proceed to get feedback
       updateStatus(emailKey, idSetoran, "Diterima", setoran);
       const rate = prompt("Berikan rating untuk setoran ini (1-5):");
       const comment = prompt("Tambahkan komentar untuk setoran ini:");
@@ -53,7 +50,6 @@ const Setoran = () => {
         saveFeedback(emailKey, idSetoran, rate, comment);
       }
     } else {
-      // Update status to 'Diulangi'
       updateStatus(emailKey, idSetoran, "Diulangi", setoran);
     }
   };

@@ -50,8 +50,18 @@ function Home() {
           >
             Feedback
           </button>
-          <button className="px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">Tombol 2</button>
-          <button className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Tombol 3</button>
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            onClick={() => navigate("/halaman-diterima", { state: { userEmail: "email_siswa_di_sini" } })}
+          >
+            Diterima
+          </button>
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            onClick={() => navigate("/halaman-diulangi", { state: { userEmail: "email_siswa_di_sini" } })}
+          >
+            Diulangi
+          </button>
           <button className="px-4 py-2 bg-purple-500 text-white rounded-lg shadow-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500" onClick={() => navigate("/user-profile")}>
             Profil
           </button>
