@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom"; // Import Link and useLocation
 
 const HalamanAdmin = () => {
   const [showKelasDropdown, setShowKelasDropdown] = useState(false);
   const [showSetoranDropdown, setShowSetoranDropdown] = useState(false);
+
+  const location = useLocation(); // Dapatkan lokasi saat ini dari react-router
+
+  useEffect(() => {
+    // Fungsi ini akan dijalankan setiap kali URL berubah
+    // Menutup dropdown jika URL berubah
+    setShowKelasDropdown(false);
+    setShowSetoranDropdown(false);
+  }, [location.pathname]); // Memantau perubahan pathname dari URL
 
   const toggleKelasDropdown = () => {
     setShowKelasDropdown(!showKelasDropdown);
@@ -16,12 +25,12 @@ const HalamanAdmin = () => {
   };
 
   return (
-    <nav className="bg-blue-500 text-white p-4">
-      <ul className="flex justify-between max-w-4xl mx-auto">
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+    <nav className="bg-blue-500 text-white text-lg p-2">
+      <ul className="flex flex-col sm:flex-row justify-between max-w-4xl mx-auto">
+        <li className="relative p-2 hover:bg-blue-600">
           <a href="/dataguru">Guru</a>
         </li>
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+        <li className="hover-bg-blue-700 transition-colors duration-300 p-2 rounded">
           <button onClick={toggleKelasDropdown}>Kelas</button>
           {showKelasDropdown && (
             <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg">
@@ -34,7 +43,7 @@ const HalamanAdmin = () => {
           )}
         </li>
         {/* <a href="/halaman-admin/panel-siswa">Siswa</a> */}
-        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+        <li className="hover-bg-blue-700 transition-colors duration-300 p-2 rounded">
           <button onClick={toggleSetoranDropdown}>Setoran</button>
           {showSetoranDropdown && (
             <ul className="absolute bg-white text-blue-500 mt-1 p-2 rounded shadow-lg">

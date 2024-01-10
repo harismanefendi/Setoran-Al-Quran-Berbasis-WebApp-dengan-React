@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 import { ref as dbRef, db } from "../../config/firebase/index";
 import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";
@@ -32,11 +34,35 @@ const SetoranDiterima = () => {
     });
   }, [kelas]); // Menambah kelas sebagai dependency
 
+  const downloadPdf = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Nama Peserta", "Juz", "Surat dan Ayat"];
+    const tableRows = [];
+
+    setoranList.forEach((setoran) => {
+      const setoranData = [setoran.namaPeserta, setoran.juz, `${setoran.suratAwal} ayat ${setoran.ayatAwal} sampai ${setoran.suratAkhir} ayat ${setoran.ayatAkhir}`];
+      tableRows.push(setoranData);
+    });
+
+    // Memperbarui cara inisialisasi autoTable
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    doc.text(`Daftar Setoran Diterima Siswa Kelas ${kelas}`, 14, 15);
+    doc.save(`setoran_kelas_${kelas}.pdf`);
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
       <div className="text-center mb-6">
         <p className="text-2xl font-semibold text-gray-800">Daftar Setoran Diterima Siswa Kelas {kelas}</p>
       </div>
+      <button onClick={downloadPdf} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Download PDF
+      </button>
       <div>
         {setoranList.map((setoran) => (
           <div key={setoran.id} className="border-b border-gray-200 py-4 last:border-b-0">

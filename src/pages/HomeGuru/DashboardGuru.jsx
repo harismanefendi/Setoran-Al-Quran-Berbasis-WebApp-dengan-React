@@ -50,7 +50,7 @@ const DashboardGuru = () => {
             <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2" style={{ zIndex: 1 }}>
               {[1, 2, 3, 4, 5, 6].map((kelas) => (
                 <li key={kelas} className="hover:bg-blue-100 p-2">
-                  <Link to={`/setoran/${kelas}`} onClick={() => handleDropdownSelection(`main-${kelas}`, "Main")}>
+                  <Link to={`/setoran/guru/${kelas}`} onClick={() => handleDropdownSelection(`main-${kelas}`, "Main")}>
                     Kelas {kelas}
                   </Link>
                 </li>
@@ -87,7 +87,7 @@ const DashboardGuru = () => {
           )}
         </li>
         <li className="p-2">
-          <Link to="/profile" onClick={closeAllDropdowns}>
+          <Link to="/profile-guru" onClick={closeAllDropdowns}>
             Profil
           </Link>
         </li>

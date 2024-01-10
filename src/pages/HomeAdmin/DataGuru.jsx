@@ -81,36 +81,40 @@ const DataGuru = () => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-8">
-      <h1 className="text-2xl font-bold mb-4">Halaman Guru</h1>
+    <div className="mx-auto max-w-screen-lg p-4 overflow-x-auto">
+      <h1 className="text-xl md:text-2xl font-bold mb-4">Halaman Guru</h1>
       <button onClick={downloadPdf} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4">
         Download PDF
       </button>
-      <table className="min-w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2">Nama</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teachers.map((teacher) => (
-            <tr key={teacher.uid} className="border-b">
-              <td className="p-2">{teacher.name}</td>
-              <td className="p-2">{teacher.email}</td>
-              <td className="p-2">
-                <button onClick={() => handleUpdate(teacher.uid)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">
-                  Edit
-                </button>
-                <button onClick={() => handleDelete(teacher.uid)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                  Hapus
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2 w-1/3 md:w-auto">Nama</th>
+              <th className="p-2 w-1/3 md:w-auto">Email</th>
+              <th className="p-2 w-1/3 md:w-auto">Aksi</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {teachers.map((teacher) => (
+              <tr key={teacher.uid} className="border-b">
+                <td className="p-2">{teacher.name}</td>
+                <td className="p-2">{teacher.email}</td>
+                <td className="p-2">
+                  <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                    <button onClick={() => handleUpdate(teacher.uid)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 text-sm rounded">
+                      Edit
+                    </button>
+                    <button onClick={() => handleDelete(teacher.uid)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 text-sm rounded">
+                      Hapus
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

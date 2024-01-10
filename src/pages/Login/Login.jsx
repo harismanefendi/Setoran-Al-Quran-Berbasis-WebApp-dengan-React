@@ -19,30 +19,32 @@ function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Mengambil data pengguna dari Firebase Database
-      const emailKey = user.email.replace(".", ","); // Ganti titik di email dengan koma
-      const userRef = ref(db, `siswa/${emailKey}`);
+      // Mengganti titik di email dengan koma
+      const emailKey = user.email.replace(/\./g, ",");
 
+      // Mengambil data pengguna dari Firebase Database
+      const userRef = ref(db, `siswa/${emailKey}`);
       get(userRef)
         .then((snapshot) => {
           if (snapshot.exists()) {
             const userData = snapshot.val();
             localStorage.setItem("user", JSON.stringify(userData));
-            login(); // Memanggil fungsi login untuk mengatur status isAuthenticated menjadi true
+            login(); // Mengatur status isAuthenticated menjadi true
             navigate("/home/login"); // Arahkan ke halaman home
           } else {
-            console.log("No user data available");
+            // Pengguna tidak ditemukan di tabel siswa
+            alert("Anda belum terdaftar sebagai siswa. Silakan registrasi terlebih dahulu.");
           }
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
         });
     } catch (error) {
+      console.error("Error:", error.message);
       if (error.code === "auth/user-not-found") {
-        window.alert("Akun belum terdaftar. Silakan registrasi terlebih dahulu.");
+        alert("Email atau password salah. Silakan coba lagi.");
       } else {
-        console.error("Error:", error.message);
-        window.alert("Email atau password salah. Silakan coba lagi.");
+        alert("Kata Sandi Salah");
       }
     }
   };

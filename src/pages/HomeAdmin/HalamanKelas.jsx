@@ -64,33 +64,37 @@ const HalamanKelas = () => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl p-8">
-      <h1 className="text-2xl font-bold mb-4">Halaman Kelas {kelas}</h1>
-      <table className="min-w-full">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="p-2">Name</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {siswa.map((s) => (
-            <tr key={s.email.replace(/[.$#[\]]/g, ",")} className="border-b">
-              <td className="p-2">{s.name}</td>
-              <td className="p-2">{s.email}</td>
-              <td className="p-2">
-                <button onClick={() => handleEdit(s.email.replace(/[.$#[\]]/g, ","))} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                  Edit
-                </button>
-                <button onClick={() => handleDelete(s.email.replace(/[.$#[\]]/g, ","))} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Delete
-                </button>
-              </td>
+    <div className="mx-auto max-w-2xl p-4 overflow-x-auto">
+      <h1 className="text-xl md:text-2xl font-bold mb-4">Halaman Kelas {kelas}</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-2 w-1/3 md:w-auto">Name</th>
+              <th className="p-2 w-1/3 md:w-auto">Email</th>
+              <th className="p-2 w-1/3 md:w-auto">Aksi</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {siswa.map((s) => (
+              <tr key={s.email.replace(/[.$#[\]]/g, ",")} className="border-b">
+                <td className="p-2">{s.name}</td>
+                <td className="p-2">{s.email}</td>
+                <td className="p-2">
+                  <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
+                    <button onClick={() => handleEdit(s.email.replace(/[.$#[\]]/g, ","))} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded">
+                      Edit
+                    </button>
+                    <button onClick={() => handleDelete(s.email.replace(/[.$#[\]]/g, ","))} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 text-sm rounded">
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

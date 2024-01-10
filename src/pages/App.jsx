@@ -31,6 +31,9 @@ import HalamanDiterima from "./HomeSiswa/HalamanDiterima";
 import HalamanDiulangi from "./HomeSiswa/HalamanDiulangi";
 import Layout from "./HomeGuru/Layout";
 import LayoutAdmin from "./HomeAdmin/LayoutAdmin";
+import SetoranGuru from "./HomeGuru/SetoranGuru";
+import ProfileGuru from "./HomeGuru/ProfileGuru";
+import EditProfileGuru from "./HomeGuru/EditProfileGuru";
 
 function App() {
   return (
@@ -46,14 +49,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/file" element={<FileUpload />} />
 
-          <Route
-            path="/feedback-siswa"
-            element={
-              <PrivateRoute>
-                <FeedbackSiswa />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/feedback-siswa" element={<FeedbackSiswa />} />
 
           <Route
             path="/home/login"
@@ -134,10 +130,10 @@ function App() {
 
           {/* HomeGuru */}
           <Route
-            path="/setoran/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            path="/setoran/guru/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
             element={
               <Layout>
-                <Setoran />
+                <SetoranGuru />
               </Layout>
             }
           />
@@ -154,6 +150,22 @@ function App() {
             element={
               <Layout>
                 <SetoranDiulangi />
+              </Layout>
+            }
+          />
+          <Route
+            path="/profile-guru" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            element={
+              <Layout>
+                <ProfileGuru />
+              </Layout>
+            }
+          />
+          <Route
+            path="/edit-profile-guru" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            element={
+              <Layout>
+                <EditProfileGuru />
               </Layout>
             }
           />
