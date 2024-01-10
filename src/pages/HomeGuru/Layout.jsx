@@ -1,4 +1,4 @@
-// Layout.js
+// Layout.jsx
 import React from "react";
 import DashboardGuru from "./DashboardGuru"; // Komponen navigasi tetap
 

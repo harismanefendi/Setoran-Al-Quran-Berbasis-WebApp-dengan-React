@@ -13,7 +13,7 @@ import NotFound from "./NotFound";
 import Register from "./Register/Register";
 import QuranSetoranForm from "./QuranSetoranForm";
 import Hello from "./Hello";
-import AdminPage from "./HomeAdmin/AdminPage";
+import DataGuru from "./HomeAdmin/DataGuru";
 import HalamanGuru from "./HomeGuru/HalamanGuru";
 import HomePage from "./Dashboard/homePage";
 import EditProfile from "./EditProfil";
@@ -30,12 +30,11 @@ import SetoranDiulangi from "./HomeGuru/SetoranDiulangi";
 import HalamanDiterima from "./HomeSiswa/HalamanDiterima";
 import HalamanDiulangi from "./HomeSiswa/HalamanDiulangi";
 import Layout from "./HomeGuru/Layout";
+import LayoutAdmin from "./HomeAdmin/LayoutAdmin";
 
 function App() {
   return (
     <AuthProvider>
-      {" "}
-      {/* Menggunakan AuthProvider */}
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -55,8 +54,6 @@ function App() {
               </PrivateRoute>
             }
           />
-
-          {/* Rute yang memerlukan autentikasi */}
 
           <Route
             path="/home/login"
@@ -97,18 +94,55 @@ function App() {
           <Route path="/futureclass" element={<Hello />} />
 
           <Route path="/*" element={<NotFound />} />
-          <Route path="/halaman-admin/panel-admin" element={<AdminPage />} />
-
-          <Route path="/kelas/:kelas" element={<HalamanKelas />} />
-          <Route path="/guru/login" element={<DashboardGuru />} />
-          <Route path="/guru/kelas" element={<HalamanGuru />} />
-          <Route path="/setoran/:kelas" element={<Setoran />} />
-          <Route path="/halaman-diterima" element={<HalamanDiterima />} />
-          <Route path="/halaman-diulangi" element={<HalamanDiulangi />} />
-          {/* HomeGuru */}
+          <Route
+            path="/dataguru"
+            element={
+              <LayoutAdmin>
+                <DataGuru />
+              </LayoutAdmin>
+            }
+          />
 
           <Route
-            path="/setoran/diterima:kelas"
+            path="/setoran/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            element={
+              <LayoutAdmin>
+                <Setoran />
+              </LayoutAdmin>
+            }
+          />
+
+          <Route
+            path="/kelas/:kelas"
+            element={
+              <LayoutAdmin>
+                <HalamanKelas />
+              </LayoutAdmin>
+            }
+          />
+          <Route path="/guru/login" element={<DashboardGuru />} />
+          <Route
+            path="/guru/kelas"
+            element={
+              <Layout>
+                <HalamanGuru />
+              </Layout>
+            }
+          />
+          <Route path="/halaman-diterima" element={<HalamanDiterima />} />
+          <Route path="/halaman-diulangi" element={<HalamanDiulangi />} />
+
+          {/* HomeGuru */}
+          <Route
+            path="/setoran/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            element={
+              <Layout>
+                <Setoran />
+              </Layout>
+            }
+          />
+          <Route
+            path="/setoran/diterima/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
             element={
               <Layout>
                 <SetoranDiterima />
@@ -116,7 +150,7 @@ function App() {
             }
           />
           <Route
-            path="/setoran/diulangi:kelas"
+            path="/setoran/diulangi/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
             element={
               <Layout>
                 <SetoranDiulangi />

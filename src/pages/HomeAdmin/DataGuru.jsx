@@ -4,7 +4,7 @@ import "jspdf-autotable";
 
 import { ref, get, getDatabase, update, remove } from "firebase/database";
 
-const AdminPage = () => {
+const DataGuru = () => {
   const [teachers, setTeachers] = useState([]);
 
   useEffect(() => {
@@ -115,4 +115,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default DataGuru;

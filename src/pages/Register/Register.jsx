@@ -12,6 +12,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [kelas, setKelas] = useState(""); // Tambahkan state kelas
   const navigate = useNavigate();
 
   const validateEmail = (value) => {
@@ -43,7 +44,7 @@ const Register = () => {
           const userData = {
             email: email,
             name: name,
-            kelas: "", // Isi dengan kelas jika ada
+            kelas: kelas, // Menggunakan nilai kelas dari state
           };
 
           set(userRef, userData)
@@ -114,6 +115,27 @@ const Register = () => {
                 }}
               />
               {emailError && <p className="mt-2 text-sm text-red-500">{emailError}</p>}
+            </div>
+
+            {/* Kelas */}
+            <div>
+              <label htmlFor="kelas" className="block text-sm font-medium text-gray-700">
+                Kelas
+              </label>
+              <select
+                id="kelas"
+                name="kelas"
+                className="mt-1 p-3 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={kelas}
+                onChange={(e) => setKelas(e.target.value)}
+              >
+                <option value="1">Kelas 1</option>
+                <option value="2">Kelas 2</option>
+                <option value="3">Kelas 3</option>
+                <option value="4">Kelas 4</option>
+                <option value="5">Kelas 5</option>
+                <option value="6">Kelas 6</option>
+              </select>
             </div>
 
             {/* Password */}

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 const HalamanKelas = () => {
   const [siswa, setSiswa] = useState([]);
+  const [kelasOptions, setKelasOptions] = useState(["1", "2", "3", "4", "5", "6"]); // Pilihan kelas
   const { kelas } = useParams();
 
   useEffect(() => {
@@ -33,13 +34,15 @@ const HalamanKelas = () => {
     }
 
     let newName = prompt("Enter new name:", currentStudent.name);
+    let newKelas = prompt("Enter new class:", currentStudent.kelas);
+
     if (newName !== null && newName !== "") {
       const db = getDatabase();
       const studentRef = ref(db, `siswa/${uid.replace(/[.$#[\]]/g, ",")}`);
 
       try {
-        await update(studentRef, { name: newName });
-        setSiswa((prevSiswa) => prevSiswa.map((student) => (student.email.replace(/[.$#[\]]/g, ",") === uid ? { ...student, name: newName } : student)));
+        await update(studentRef, { name: newName, kelas: newKelas }); // Perbarui nama dan kelas
+        setSiswa((prevSiswa) => prevSiswa.map((student) => (student.email.replace(/[.$#[\]]/g, ",") === uid ? { ...student, name: newName, kelas: newKelas } : student)));
       } catch (error) {
         console.error("Error updating student:", error);
       }
