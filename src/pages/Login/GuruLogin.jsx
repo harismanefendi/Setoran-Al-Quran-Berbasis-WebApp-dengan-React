@@ -103,7 +103,7 @@ function GuruLogin() {
 
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <button type="button" onClick={() => navigate("/register-guru")} className="text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/register-guru")} className="text-indigo-600 hover:underline focus:outline-none" disabled>
               Register now
             </button>
           </div>
