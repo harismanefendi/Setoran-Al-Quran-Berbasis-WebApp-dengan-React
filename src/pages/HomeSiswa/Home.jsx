@@ -30,7 +30,9 @@ function Home() {
         <button className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out" onClick={() => navigate("/setoran")}>
           Setoran Rekaman Hafalan
         </button>
-        <button className="px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out">Tips Mudah Menghafal</button>
+        <button className="px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out" onClick={() => navigate("/info-terkini")}>
+          Tips Mudah Menghafal
+        </button>
         <button className="px-6 py-3 bg-red-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out">Ajukan Setoran Via Online</button>
         <button className="px-6 py-3 bg-purple-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out">Tombol 4</button>
       </div>

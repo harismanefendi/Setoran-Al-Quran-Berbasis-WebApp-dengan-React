@@ -34,6 +34,9 @@ import LayoutAdmin from "./HomeAdmin/LayoutAdmin";
 import SetoranGuru from "./HomeGuru/SetoranGuru";
 import ProfileGuru from "./HomeGuru/ProfileGuru";
 import EditProfileGuru from "./HomeGuru/EditProfileGuru";
+import HalamanBerita from "./HomeSiswa/HalamanBerita";
+import BeritaAdmin from "./HomeAdmin/Berita/BeritaAdmin";
+import DaftarBerita from "./HomeSiswa/DaftarBerita";
 
 function App() {
   return (
@@ -48,7 +51,6 @@ function App() {
           <Route path="/siswa" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/file" element={<FileUpload />} />
-
           <Route path="/feedback-siswa" element={<FeedbackSiswa />} />
 
           <Route
@@ -169,6 +171,11 @@ function App() {
               </Layout>
             }
           />
+          {/* halaman Berita */}
+          <Route path="/info-terkini" element={<DaftarBerita />} />
+          <Route path="/article/:articleId" element={<HalamanBerita />} />
+          {/* Berita Admin */}
+          <Route path="/berita-admin" element={<BeritaAdmin />} />
         </Routes>
       </Router>
     </AuthProvider>

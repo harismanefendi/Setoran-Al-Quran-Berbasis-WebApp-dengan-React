@@ -56,6 +56,9 @@ const HalamanAdmin = () => {
           )}
         </li>
         <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
+          <a href="/berita-admin">Berita</a>
+        </li>
+        <li className="hover:bg-blue-700 transition-colors duration-300 p-2 rounded">
           <a href="#profil">Profil</a>
         </li>
       </ul>
