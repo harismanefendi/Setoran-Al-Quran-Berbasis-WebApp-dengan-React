@@ -25,17 +25,26 @@ const HalamanBerita = () => {
   }, [articleId]);
 
   if (isLoading) {
-    return <p className="text-center text-lg">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-lg font-medium animate-pulse">Loading...</div>
+      </div>
+    );
   }
 
   if (!article) {
-    return <p className="text-center text-lg text-red-500">Artikel tidak ditemukan.</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-lg text-red-500 font-medium">Artikel tidak ditemukan.</p>
+      </div>
+    );
   }
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4 text-blue-800">{article.title}</h1>
-      <div className="article-content text-gray-700 text-lg leading-relaxed">
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg mt-10">
+      <h1 className="text-4xl font-extrabold mb-6 text-blue-800">{article.title}</h1>
+      <div className="article-content text-gray-700 text-lg leading-relaxed space-y-4">
+        {/* Pastikan untuk membersihkan dan memvalidasi HTML sebelum menggunakan dangerouslySetInnerHTML */}
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
       </div>
     </div>

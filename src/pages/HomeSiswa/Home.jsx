@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
+import AppName from "../../components/AppName/AppName";
+import AnimatedButton from "../../components/button/Button";
 
 function Home() {
   const [showAlert, setShowAlert] = useState(true);
@@ -14,43 +16,75 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-purple-100">
-      <div className="mt-4 text-center">
-        <h1 className="text-blue-800 font-bold text-4xl md:text-6xl relative">
-          <span className="text-blue-600">
-            HSQOnline <br /> Hayyuk Setor Quran Online
-          </span>
-        </h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-hitam">
+      <div className="text-center">
+        <AppName>
+          <div className="app-title">HSQOnline</div>
+          <div className="app-subtitle">Hayyuk Setor Quran Online</div>
+        </AppName>
+      </div>
+      <div className="text-center">
+        <p className="mt-4 text-lg md:text-xl lg:text-2xl">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
+        <p className="text-base md:text-lg lg:text-xl font-semibold">Selamat datang di Halaman Utama Setoran Hafalan.</p>
+        <p className="text-base md:text-lg lg:text-xl font-semibold">Kami mengundang Anda untuk menjelajahi beragam fitur yang kami tawarkan, sesuaikan dengan kebutuhan Anda.</p>
       </div>
 
-      <p className="mt-4 text-base md:text-2xl lg:text-3xl text-center">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
-      <p className="text-lg font-semibold text-center">Selamat datang di Halaman Utama Setoran Hafalan.</p>
-      <p className="text-lg font-semibold text-center">Kami mengundang Anda untuk menjelajahi beragam fitur yang kami tawarkan, sesuaikan dengan kebutuhan Anda.</p>
-      <div className="mt-4 flex flex-col space-y-4">
-        <button className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out" onClick={() => navigate("/setoran")}>
-          Setoran Rekaman Hafalan
-        </button>
-        <button className="px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out" onClick={() => navigate("/info-terkini")}>
+      <div className="mt-4 flex flex-col space-y-4 font-body">
+        <AnimatedButton className="bg" onClick={() => navigate("/setoran")}>
+          Setoran Rekaman
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
+          </svg>
+        </AnimatedButton>
+        <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
           Tips Mudah Menghafal
-        </button>
-        <button className="px-6 py-3 bg-red-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out">Ajukan Setoran Via Online</button>
-        <button className="px-6 py-3 bg-purple-500 text-white rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-500 ease-in-out">Tombol 4</button>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
+          </svg>
+        </AnimatedButton>
+
+        <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
+          Ajukan Setoran Via Online
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
+          </svg>
+        </AnimatedButton>
+
+        <AnimatedButton onClick={() => console.log("Button clicked!")}>
+          Click Me
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
+          </svg>
+        </AnimatedButton>
       </div>
-      <div className="fixed bottom-0 left-0 w-full bg-blue-200 py-4">
-        <div className="container mx-auto flex justify-center space-x-4">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition duration-300" onClick={() => navigate("/feedback-siswa", { state: { userEmail: "email_siswa_di_sini" } })}>
+      <div className="fixed inset-x-0 bottom-0 bg-white py-3 shadow-lg">
+        <div className="max-w-md mx-auto flex justify-between items-center px-4">
+          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-500 transition-colors" onClick={() => navigate("/feedback-siswa", { state: { userEmail: "email_siswa_di_sini" } })}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
             Feedback
           </button>
-          <button
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition duration-300"
-            onClick={() => navigate("/halaman-diterima", { state: { userEmail: "email_siswa_di_sini" } })}
-          >
+          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-500 transition-colors" onClick={() => navigate("/halaman-diterima", { state: { userEmail: "email_siswa_di_sini" } })}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             Diterima
           </button>
-          <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition duration-300" onClick={() => navigate("/halaman-diulangi", { state: { userEmail: "email_siswa_di_sini" } })}>
+          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-500 transition-colors" onClick={() => navigate("/halaman-diulangi", { state: { userEmail: "email_siswa_di_sini" } })}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l-2 2-2-2v13h10V6l-2 2-2-2v13z" />
+            </svg>
             Diulangi
           </button>
-          <button className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-1 transition duration-300" onClick={() => navigate("/user-profile")}>
+          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-500 transition-colors" onClick={() => navigate("/user-profile")}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
             Profil
           </button>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 function FeedbackSiswa() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -108,7 +109,7 @@ function FeedbackSiswa() {
           </div>
         ))
       ) : (
-        <p className="text-center text-gray-600">Belum ada feedback.</p>
+        <LoadingSpinner />
       )}
     </div>
   );

@@ -1,7 +1,8 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../config/Routes/AuthContext"; // Import AuthProvider
 import PrivateRoute from "../config/Routes/PrivateRoute"; // Import PrivateRoute
+import React, { useState, useEffect } from "react";
+// Impor lainnya...
 
 import Home from "./HomeSiswa/Home";
 import AdminLogin from "./Login/AdminLogin";
@@ -37,8 +38,19 @@ import EditProfileGuru from "./HomeGuru/EditProfileGuru";
 import HalamanBerita from "./HomeSiswa/HalamanBerita";
 import BeritaAdmin from "./HomeAdmin/Berita/BeritaAdmin";
 import DaftarBerita from "./HomeSiswa/DaftarBerita";
+import { requestFirebaseNotificationPermission } from "../config/notifikasi/firebaseNotification";
 
 function App() {
+  useEffect(() => {
+    requestFirebaseNotificationPermission()
+      .then((firebaseToken) => {
+        // Lakukan sesuatu dengan token, seperti mengirim ke server
+        console.log(firebaseToken);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <AuthProvider>
       <Router>
@@ -53,14 +65,7 @@ function App() {
           <Route path="/file" element={<FileUpload />} />
           <Route path="/feedback-siswa" element={<FeedbackSiswa />} />
 
-          <Route
-            path="/home/login"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/home/login" element={<Home />} />
 
           <Route
             path="/menu"

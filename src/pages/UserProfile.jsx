@@ -49,7 +49,15 @@ function UserProfile() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <div className="text-center">
-          {userData.profileImageUrl ? <img src={userData.profileImageUrl} alt="Foto Profil" className="w-20 h-20 mx-auto rounded-full mb-4" /> : <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>}
+          {userData.profileImageUrl ? (
+            <img
+              src={userData.profileImageUrl}
+              alt="Foto Profil"
+              className="w-20 h-20 mx-auto rounded-full mb-4 object-cover" // Menambahkan object-cover untuk mempertahankan aspek rasio
+            />
+          ) : (
+            <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>
+          )}
           <h2 className="text-xl font-semibold">{userData.displayName}</h2>
           <p className="text-gray-500">Email: {userData.email}</p>
           <p className="text-gray-500">Kelas: {userData.kelas}</p>
