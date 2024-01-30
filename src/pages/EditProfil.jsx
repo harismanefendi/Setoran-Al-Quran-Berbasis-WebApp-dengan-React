@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref as dbRef, onValue, set } from "firebase/database";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage"; // Menggunakan alias storageRef untuk Firebase Storage
+import {
+  getDatabase,
+  ref as dbRef,
+  onValue,
+  set as dbSet, // Menggunakan alias dbSet
+} from "firebase/database";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
@@ -13,11 +18,12 @@ function EditProfile() {
   });
 
   const [isLoadingImage, setIsLoadingImage] = useState(false);
-  const [previousProfileImageUrl, setPreviousProfileImageUrl] = useState(""); // Menambahkan state untuk URL gambar profil sebelumnya
+  const [previousProfileImageUrl, setPreviousProfileImageUrl] = useState("");
   const navigate = useNavigate();
   const kelasOptions = ["1", "2", "3", "4", "5", "6"];
 
   useEffect(() => {
+    // Memuat data profil dari database saat komponen dimount
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const storedUserData = JSON.parse(storedUser);
@@ -34,7 +40,7 @@ function EditProfile() {
               ...data,
               email: data.email.replace(",", "."),
             });
-            setPreviousProfileImageUrl(data.profileImageUrl || ""); // Mengatur URL gambar profil sebelumnya
+            setPreviousProfileImageUrl(data.profileImageUrl || "");
           }
         },
         {
@@ -57,11 +63,9 @@ function EditProfile() {
     if (file) {
       setIsLoadingImage(true);
 
-      // Mengunggah foto profil ke Firebase Storage jika ada
       const storage = getStorage();
-      const storageReference = storageRef(storage, `profile_images/${profile.email}/${file.name}`); // Menggunakan alias storageReference
+      const storageReference = storageRef(storage, `profile_images/${profile.email}/${file.name}`);
       try {
-        // Menghapus gambar profil sebelumnya jika ada
         if (previousProfileImageUrl) {
           const previousImageRef = storageRef(storage, previousProfileImageUrl);
           await deleteObject(previousImageRef);
@@ -73,7 +77,7 @@ function EditProfile() {
           ...prevState,
           profileImageUrl: downloadURL,
         }));
-        setPreviousProfileImageUrl(downloadURL); // Memperbarui URL gambar profil sebelumnya
+        setPreviousProfileImageUrl(downloadURL);
       } catch (error) {
         console.error("Error uploading profile image:", error);
       } finally {
@@ -90,7 +94,7 @@ function EditProfile() {
     const userRef = dbRef(db, "siswa/" + emailKey);
 
     try {
-      await set(userRef, profile);
+      await dbSet(userRef, profile); // Menggunakan dbSet untuk menulis data ke database
       localStorage.setItem("userKey", JSON.stringify(profile));
       navigate("/user-profile");
     } catch (error) {
@@ -112,6 +116,7 @@ function EditProfile() {
               name="profileImage"
               accept="image/*"
               onChange={handleImageUpload}
+              capture="user" // Mengizinkan pengguna memilih resolusi
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
@@ -126,7 +131,7 @@ function EditProfile() {
             </div>
           )}
           <div className="mb-4">
-            <label htmlFor="nama" className="block text-gray-700 text-sm font-bold mb-2">
+            <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
               Nama:
             </label>
             <input

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref as dbRef, onValue } from "firebase/database";
 import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage"; // Menggunakan alias storageRef untuk Firebase Storage
+import UserRating from "./HomeSiswa/UserRating/UserRating";
+import UserRatingProfil from "./HomeSiswa/UserRating/UserRatingProfil";
 
 function UserProfile() {
   const [userData, setUserData] = useState({
@@ -59,6 +61,7 @@ function UserProfile() {
             <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>
           )}
           <h2 className="text-xl font-semibold">{userData.displayName}</h2>
+          <UserRatingProfil userEmail={userData.email} />
           <p className="text-gray-500">Email: {userData.email}</p>
           <p className="text-gray-500">Kelas: {userData.kelas}</p>
         </div>

@@ -39,6 +39,7 @@ import HalamanBerita from "./HomeSiswa/HalamanBerita";
 import BeritaAdmin from "./HomeAdmin/Berita/BeritaAdmin";
 import DaftarBerita from "./HomeSiswa/DaftarBerita";
 import { requestFirebaseNotificationPermission } from "../config/notifikasi/firebaseNotification";
+import StudentList from "./HomeSiswa/StudentList/StudentList";
 
 function App() {
   useEffect(() => {
@@ -114,6 +115,7 @@ function App() {
               </LayoutAdmin>
             }
           />
+          <Route path="/hafiz-rank" element={<StudentList />} />
 
           <Route
             path="/kelas/:kelas"
