@@ -8,7 +8,6 @@ import Home from "./HomeSiswa/Home";
 import AdminLogin from "./Login/AdminLogin";
 import GuruLogin from "./Login/GuruLogin";
 import Login from "./Login/Login";
-import Menu from "./Menu";
 import UserProfile from "./UserProfile";
 import NotFound from "./NotFound";
 import Register from "./Register/Register";
@@ -40,6 +39,8 @@ import BeritaAdmin from "./HomeAdmin/Berita/BeritaAdmin";
 import DaftarBerita from "./HomeSiswa/DaftarBerita";
 import { requestFirebaseNotificationPermission } from "../config/notifikasi/firebaseNotification";
 import StudentList from "./HomeSiswa/StudentList/StudentList";
+import ForgotPassword from "./Login/ForgotPassword";
+import Testing from "./Testing";
 
 function App() {
   useEffect(() => {
@@ -68,14 +69,6 @@ function App() {
 
           <Route path="/home/login" element={<Home />} />
 
-          <Route
-            path="/menu"
-            element={
-              <PrivateRoute>
-                <Menu />
-              </PrivateRoute>
-            }
-          />
           <Route
             path="/user-profile"
             element={
@@ -116,7 +109,7 @@ function App() {
             }
           />
           <Route path="/hafiz-rank" element={<StudentList />} />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/kelas/:kelas"
             element={
@@ -183,6 +176,7 @@ function App() {
           <Route path="/article/:articleId" element={<HalamanBerita />} />
           {/* Berita Admin */}
           <Route path="/berita-admin" element={<BeritaAdmin />} />
+          <Route path="/testing" element={<Testing />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getDatabase,
-  ref as dbRef,
-  onValue,
-  set as dbSet, // Menggunakan alias dbSet
-} from "firebase/database";
+import { getDatabase, ref as dbRef, onValue, set as dbSet } from "firebase/database";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 function EditProfile() {

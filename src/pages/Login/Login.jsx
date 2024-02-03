@@ -91,15 +91,16 @@ function Login() {
             </div>
           </div>
 
-          <div className="mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mb-4"
-            >
+          <div className="">
+            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
             </button>
           </div>
-
+          <div className="text-center">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+              Lupa Sandi?
+            </button>
+          </div>
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
             <button type="button" onClick={() => navigate("/register")} className="text-indigo-600 hover:underline focus:outline-none">

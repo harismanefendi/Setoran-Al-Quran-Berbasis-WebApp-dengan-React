@@ -58,8 +58,7 @@ const UserRating = ({ averageRating }) => {
   };
 
   return (
-    <div className="mt-4 text-center">
-      <p className="text-gray-600">Average Rating:</p>
+    <div className="mt-0 text-center font-body">
       <div className="flex justify-center">{averageRating ? renderStars(averageRating) : "Loading..."}</div>
     </div>
   );

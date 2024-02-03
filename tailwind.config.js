@@ -10,6 +10,7 @@ export default {
         putihhijau: "#E0F4F4",
         hijautarang: "#6ADAC2",
         hijaukalam: "#00B790",
+        bronze: "#964B00",
       },
       fontFamily: {
         sans: ["ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],

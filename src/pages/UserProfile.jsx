@@ -4,6 +4,7 @@ import { getDatabase, ref as dbRef, onValue } from "firebase/database";
 import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage"; // Menggunakan alias storageRef untuk Firebase Storage
 import UserRating from "./HomeSiswa/UserRating/UserRating";
 import UserRatingProfil from "./HomeSiswa/UserRating/UserRatingProfil";
+import Logout from "./Login/Logout";
 
 function UserProfile() {
   const [userData, setUserData] = useState({
@@ -74,6 +75,7 @@ function UserProfile() {
           <button onClick={handleBackToHome} className="text-indigo-600 hover:underline focus:outline-none">
             Kembali ke Home
           </button>
+          <Logout />
         </div>
       </div>
     </div>

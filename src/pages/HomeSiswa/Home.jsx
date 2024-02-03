@@ -23,7 +23,7 @@ function Home() {
             HSQOnline
           </div>
           <div className="app-subtitle font-body font-extrabold">
-            <span style={{ color: "gold" }}>Hayyuk</span> Setor Quran Online
+            <span className="">Hayyuk</span> Setor Quran Online
           </div>
         </AppName>
       </div>
@@ -46,7 +46,7 @@ function Home() {
         <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
           Ajukan Setoran Via Online
         </AnimatedButton>
-        <AnimatedButton onClick={() => navigate("/hafiz-rank")}>Click Me</AnimatedButton>
+        <AnimatedButton onClick={() => navigate("/hafiz-rank")}>Hafizh Rank</AnimatedButton>
       </div>
       <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
         <div className="max-w-md mx-auto flex justify-between items-center px-4">

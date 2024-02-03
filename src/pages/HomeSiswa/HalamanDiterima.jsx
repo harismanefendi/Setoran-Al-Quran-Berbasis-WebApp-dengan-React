@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
+import KomponenFeedback from "../../components/FeedbackSiswa/KomponenFeedback";
+import Loading from "../../components/LoadingFeedback/Loading";
 
 function HalamanDiterima() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -94,23 +96,13 @@ function HalamanDiterima() {
   return (
     <div className="container mx-auto p-4">
       {feedbackList.length > 0 ? (
-        feedbackList.map((feedback, index) => (
-          <div key={index} className="bg-white rounded-lg p-4 mb-4 shadow-md">
-            <h3 className="text-lg font-semibold mb-2">Feedback untuk Hafalan:</h3>
-            <p className="text-gray-600">Surah Awal: {feedback.suratAwal}</p>
-            <p className="text-gray-600">Surah Akhir: {feedback.suratAkhir}</p>
-            <p className="text-gray-600">Ayat Awal: {feedback.ayatAwal}</p>
-            <p className="text-gray-600">Ayat Akhir: {feedback.ayatAkhir}</p>
-            <p className="text-gray-600">Status Setoran: {feedback.status}</p>
-            <div className="flex items-center mb-1">
-              <p className="text-lg font-semibold mr-2">Rating:</p>
-              {renderStars(feedback.rating)}
-            </div>
-            <p className="text-gray-600">Komentar: {feedback.komentar}</p>
-          </div>
-        ))
+        feedbackList.map((feedback, index) => <KomponenFeedback key={index} feedback={feedback} renderStars={renderStars} text={"Setoran Diterima"} />)
       ) : (
-        <p className="text-center text-gray-600">Belum ada feedback untuk setoran yang diterima.</p>
+        <div className="">
+          {Array.from({ length: 5 }, (_, index) => (
+            <Loading key={index} text={"Setoran Diterima..."} />
+          ))}
+        </div>
       )}
     </div>
   );

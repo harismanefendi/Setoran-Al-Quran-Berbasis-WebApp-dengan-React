@@ -72,7 +72,7 @@ const QuranSetoranForm = () => {
     }
 
     if (!uploadedFileUrl) {
-      alert("Please upload a file before submitting the form.");
+      alert("Mohon unggah file sebelum mengirimkan formulir.");
       return;
     }
 
@@ -85,7 +85,7 @@ const QuranSetoranForm = () => {
       ayatAwal,
       suratAkhir,
       ayatAkhir,
-      inputValue, // Updated to use inputValue
+      inputValue, // Diperbarui untuk menggunakan inputValue
       juz,
       namaUstadz,
       uploadedFileUrl,
@@ -107,13 +107,15 @@ const QuranSetoranForm = () => {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
+
   return (
-    <div className="w-full max-w-lg mx-auto mt-4 p-4 bg-white rounded-lg shadow">
+    <div className="w-full max-w-md mx-auto mt-4 p-4 bg-white rounded-lg shadow-md">
       <div className="text-center">
-        <p className="text-center mt-4 text-gray-600">Ini adalah halaman untuk setoran rekaman, silakan isi kolom yang tersedia dengan benar dan tepat.</p>
+        <p className="text-center mt-4 text-gray-600 text-lg">Selamat datang di halaman setoran rekaman. Mohon isi kolom yang tersedia dengan benar dan tepat.</p>
       </div>
       {error && <p className="text-red-500">{error}</p>}
       <form className="mt-4" onSubmit={handleSubmit}>
+        {/* Nama Peserta */}
         <div className="mb-4">
           <label htmlFor="namaPeserta" className="block text-gray-600">
             Nama Peserta:
@@ -121,6 +123,7 @@ const QuranSetoranForm = () => {
           <input type="text" id="namaPeserta" value={namaPeserta} onChange={(e) => setNamaPeserta(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
         </div>
 
+        {/* Email */}
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-600">
             Email:
@@ -128,6 +131,7 @@ const QuranSetoranForm = () => {
           <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
         </div>
 
+        {/* Kelas */}
         <div className="mb-4">
           <label htmlFor="kelas" className="block text-gray-600">
             Kelas:
@@ -135,22 +139,22 @@ const QuranSetoranForm = () => {
           <input type="text" id="kelas" value={kelas} onChange={(e) => setKelas(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" disabled />
         </div>
 
-        <div>
-          <div className="mb-4">
-            <label htmlFor="suratAwal" className="block text-gray-600">
-              Surat Awal:
-            </label>
-            <select id="suratAwal" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
-              <option value="">Pilih Surat Awal</option>
-              {data.surahs.map((surah) => (
-                <option key={surah.number} value={surah.name}>
-                  {surah.number}. {surah.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Surat Awal */}
+        <div className="mb-4">
+          <label htmlFor="suratAwal" className="block text-gray-600">
+            Surat Awal:
+          </label>
+          <select id="suratAwal" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
+            <option value="">Pilih Surat Awal</option>
+            {data.surahs.map((surah) => (
+              <option key={surah.number} value={surah.name}>
+                {surah.number}. {surah.name}
+              </option>
+            ))}
+          </select>
         </div>
 
+        {/* Ayat Awal */}
         <div className="mb-4">
           <label htmlFor="ayatAwal" className="block text-gray-600">
             Ayat Awal:
@@ -160,6 +164,7 @@ const QuranSetoranForm = () => {
           </div>
         </div>
 
+        {/* Surat Akhir */}
         <div className="mb-4">
           <label htmlFor="suratAkhir" className="block text-gray-600">
             Surat Akhir:
@@ -174,6 +179,7 @@ const QuranSetoranForm = () => {
           </select>
         </div>
 
+        {/* Ayat Akhir */}
         <div className="mb-4">
           <label htmlFor="ayatAkhir" className="block text-gray-600">
             Ayat Akhir:
@@ -183,6 +189,7 @@ const QuranSetoranForm = () => {
           </div>
         </div>
 
+        {/* Halaman Awal */}
         <div className="mb-4">
           <label className="block text-gray-600">Halaman Awal:</label>
           <div className="flex items-center">
@@ -190,6 +197,7 @@ const QuranSetoranForm = () => {
           </div>
         </div>
 
+        {/* Pilihan Juz */}
         <div className="mb-4">
           <label htmlFor="juz" className="block text-gray-600">
             Pilihan Juz:
@@ -199,6 +207,7 @@ const QuranSetoranForm = () => {
           </select>
         </div>
 
+        {/* Status */}
         <div className="mb-4">
           <label htmlFor="status" className="block text-gray-600">
             Status:
@@ -206,6 +215,7 @@ const QuranSetoranForm = () => {
           <input type="text" id="status" value={status} className="w-full px-4 py-2 border rounded focus:outline-none" readOnly />
         </div>
 
+        {/* Nama Ustadz */}
         <div className="mb-4">
           <label htmlFor="namaUstadz" className="block text-gray-600">
             Nama Ustadz:
@@ -213,19 +223,21 @@ const QuranSetoranForm = () => {
           <input type="text" id="namaUstadz" value={namaUstadz} onChange={(e) => setNamaUstadz(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
         </div>
 
+        {/* Upload File */}
         <div className="mb-4">
-          <label className="block text-gray-600 mb-2">Upload File:</label>
+          <label className="block text-gray-600 mb-2">Unggah File:</label>
           <FileUpload onFileUpload={handleFileUpload} uploadProgress={setUploadProgress} />
           {uploadProgress > 0 && (
             <div className="text-center mt-2">
               <progress value={uploadProgress} max="100"></progress>
-              <p>{Math.round(uploadProgress)}% Complete</p>
+              <p>{Math.round(uploadProgress)}% Selesai</p>
             </div>
           )}
         </div>
 
+        {/* Tombol Submit */}
         <div className="text-center mt-4">
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" disabled={!uploadedFileUrl}>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" disabled={!uploadedFileUrl}>
             Setorkan Al-Quran
           </button>
         </div>
