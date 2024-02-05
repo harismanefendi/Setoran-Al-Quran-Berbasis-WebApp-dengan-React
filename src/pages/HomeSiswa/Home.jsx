@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import AppName from "../../components/AppName/AppName";
 import AnimatedButton from "../../components/button/Button";
+import NavigationBar from "./Navigate/NavigationBar";
 
 function Home() {
   const [showAlert, setShowAlert] = useState(true);
@@ -49,32 +50,7 @@ function Home() {
         <AnimatedButton onClick={() => navigate("/hafiz-rank")}>Hafizh Rank</AnimatedButton>
       </div>
       <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
-        <div className="max-w-md mx-auto flex justify-between items-center px-4">
-          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-hijaukalam transition-colors" onClick={() => navigate("/feedback-siswa", { state: { userEmail: "email_siswa_di_sini" } })}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            Feedback
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-hijaukalam transition-colors" onClick={() => navigate("/halaman-diterima", { state: { userEmail: "email_siswa_di_sini" } })}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Diterima
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-hijaukalam transition-colors" onClick={() => navigate("/halaman-diulangi", { state: { userEmail: "email_siswa_di_sini" } })}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l-2 2-2-2v13h10V6l-2 2-2-2v13z" />
-            </svg>
-            Diulangi
-          </button>
-          <button className="flex flex-col items-center text-xs text-gray-700 hover:text-hijaukalam transition-colors" onClick={() => navigate("/user-profile")}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-            Profil
-          </button>
-        </div>
+        <NavigationBar />
       </div>
       {showAlert && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">

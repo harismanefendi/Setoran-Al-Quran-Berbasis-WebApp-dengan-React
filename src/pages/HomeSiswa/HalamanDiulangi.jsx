@@ -3,6 +3,7 @@ import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
 import KomponenFeedback from "../../components/FeedbackSiswa/KomponenFeedback";
 import Loading from "../../components/LoadingFeedback/Loading";
+import NavigationBar from "./Navigate/NavigationBar";
 
 function HalamanDiulangi() {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -52,16 +53,21 @@ function HalamanDiulangi() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      {feedbackList.length > 0 ? (
-        feedbackList.map((feedback, index) => <KomponenFeedback key={index} feedback={feedback} renderStars={renderStars} text={"Setoran Diulangi"} />)
-      ) : (
-        <div className="">
-          {Array.from({ length: 5 }, (_, index) => (
-            <Loading key={index} text={"Setoran Diulangi..."} />
-          ))}
-        </div>
-      )}
+    <div>
+      <div className="container mx-auto p-4">
+        {feedbackList.length > 0 ? (
+          feedbackList.map((feedback, index) => <KomponenFeedback key={index} feedback={feedback} renderStars={renderStars} text={"Setoran Diulangi"} />)
+        ) : (
+          <div className="">
+            {Array.from({ length: 5 }, (_, index) => (
+              <Loading key={index} text={"Setoran Diulangi..."} />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
+        <NavigationBar />
+      </div>
     </div>
   );
 }
