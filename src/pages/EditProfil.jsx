@@ -111,7 +111,7 @@ function EditProfile() {
               name="profileImage"
               accept="image/*"
               onChange={handleImageUpload}
-              capture="user" // Mengizinkan pengguna memilih resolusi
+              //capture="user" // Mengizinkan pengguna memilih resolusi
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>

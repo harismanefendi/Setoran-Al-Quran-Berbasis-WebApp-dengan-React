@@ -5,16 +5,18 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
 import { useAuth } from "../../config/Routes/AuthContext";
+import ButtonSpinner from "../../components/buttonspinner/ButtonSpinner";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth(); // Gunakan useAuth
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -37,8 +39,10 @@ function Login() {
           }
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error("Error fetching user data:", error);
         });
+      setIsLoading(false);
     } catch (error) {
       console.error("Error:", error.message);
       if (error.code === "auth/user-not-found") {
@@ -50,7 +54,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="font-body min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Login <br /> Saja kita liat aja nanti
@@ -92,9 +96,7 @@ function Login() {
           </div>
 
           <div className="">
-            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Sign in
-            </button>
+            <ButtonSpinner buttonText={"Sign in"} isLoading={isLoading} />
           </div>
           <div className="text-center">
             <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">

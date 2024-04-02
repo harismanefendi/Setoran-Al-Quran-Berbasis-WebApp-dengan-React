@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
 import Loading from "../../components/LoadingFeedback/Loading";
-import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import KomponenFeedback from "../../components/FeedbackSiswa/KomponenFeedback";
 import NavigationBar from "./Navigate/NavigationBar";
 
@@ -46,7 +45,7 @@ function FeedbackSiswa() {
     let stars = [];
     let fullStars = Math.floor(numericRating / 2); // Hitung jumlah bintang penuh
     let hasHalfStar = numericRating % 2 !== 0; // Cek apakah ada setengah bintang
-    let decimal = numericRating % 1; // Ambil angka desimal// Cek apakah ada setengah bintang
+    // let decimal = numericRating % 1; // Ambil angka desimal// Cek apakah ada setengah bintang
 
     for (let i = 1; i <= 5; i++) {
       if (i <= fullStars) {

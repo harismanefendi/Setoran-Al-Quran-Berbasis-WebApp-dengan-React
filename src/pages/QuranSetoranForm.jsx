@@ -90,6 +90,8 @@ const QuranSetoranForm = () => {
       namaUstadz,
       uploadedFileUrl,
       status,
+      // Tambahkan tanggal hari ini
+      tanggal: new Date().toISOString(), // Tambahkan tanggal hari ini
     };
 
     const setoranRef = dbRef(db, `setoran/${emailKey}`);
@@ -109,9 +111,9 @@ const QuranSetoranForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-4 p-4 bg-white rounded-lg shadow-md">
+    <div className="w-full max-w-md mx-auto mt-4 p-4 bg-white rounded-lg shadow-md font-body">
       <div className="text-center">
-        <p className="text-center mt-4 text-gray-600 text-lg">Selamat datang di halaman setoran rekaman. Mohon isi kolom yang tersedia dengan benar dan tepat.</p>
+        <p className="text-center mt-4 text-gray-600 text-base font-body font-bold">Selamat datang di halaman setoran rekaman. Mohon isi kolom yang tersedia dengan benar dan tepat.</p>
       </div>
       {error && <p className="text-red-500">{error}</p>}
       <form className="mt-4" onSubmit={handleSubmit}>
@@ -120,7 +122,7 @@ const QuranSetoranForm = () => {
           <label htmlFor="namaPeserta" className="block text-gray-600">
             Nama Peserta:
           </label>
-          <input type="text" id="namaPeserta" value={namaPeserta} onChange={(e) => setNamaPeserta(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
+          <input type="text" id="namaPeserta" value={namaPeserta} onChange={(e) => setNamaPeserta(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" disabled />
         </div>
 
         {/* Email */}
@@ -128,7 +130,7 @@ const QuranSetoranForm = () => {
           <label htmlFor="email" className="block text-gray-600">
             Email:
           </label>
-          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
+          <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" disabled />
         </div>
 
         {/* Kelas */}
@@ -138,54 +140,55 @@ const QuranSetoranForm = () => {
           </label>
           <input type="text" id="kelas" value={kelas} onChange={(e) => setKelas(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" disabled />
         </div>
-
-        {/* Surat Awal */}
-        <div className="mb-4">
-          <label htmlFor="suratAwal" className="block text-gray-600">
-            Surat Awal:
-          </label>
-          <select id="suratAwal" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
-            <option value="">Pilih Surat Awal</option>
-            {data.surahs.map((surah) => (
-              <option key={surah.number} value={surah.name}>
-                {surah.number}. {surah.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Ayat Awal */}
-        <div className="mb-4">
-          <label htmlFor="ayatAwal" className="block text-gray-600">
-            Ayat Awal:
-          </label>
-          <div className="flex items-center">
-            <input type="number" id="ayatAwal" value={ayatAwal} onChange={(e) => setAyatAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" min="1" max="286" required />
+        <div className="flex space-x-3 items-center">
+          {/* Surat Awal */}
+          <div className="mb-4 w-full">
+            <label htmlFor="suratAwal" className="block text-gray-600">
+              Surat Awal:
+            </label>
+            <select id="suratAwal" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
+              <option value="">Pilih Surat Awal</option>
+              {data.surahs.map((surah) => (
+                <option key={surah.number} value={surah.name}>
+                  {surah.number}. {surah.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Ayat Awal */}
+          <div className="mb-4 w-full">
+            <label htmlFor="ayatAwal" className="block text-gray-600 ">
+              Ayat Awal:
+            </label>
+            <div className="flex items-center">
+              <input type="number" id="ayatAwal" value={ayatAwal} onChange={(e) => setAyatAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" min="1" max="286" required />
+            </div>
           </div>
         </div>
 
-        {/* Surat Akhir */}
-        <div className="mb-4">
-          <label htmlFor="suratAkhir" className="block text-gray-600">
-            Surat Akhir:
-          </label>
-          <select id="suratAkhir" value={suratAkhir} onChange={(e) => setSuratAkhir(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
-            <option value="">Pilih Surat Akhir</option>
-            {data.surahs.map((surah) => (
-              <option key={surah.number} value={surah.name}>
-                {surah.number}. {surah.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Ayat Akhir */}
-        <div className="mb-4">
-          <label htmlFor="ayatAkhir" className="block text-gray-600">
-            Ayat Akhir:
-          </label>
-          <div className="flex items-center">
-            <input type="number" id="ayatAkhir" value={ayatAkhir} onChange={(e) => setAyatAkhir(e.target.value)} className="w-full px-4 py-2 border rounded-l focus:outline-none focus:border-blue-400" min="1" max="286" required />
+        <div className="flex space-x-3 items-center">
+          {/* Surat Akhir */}
+          <div className="mb-4 w-full">
+            <label htmlFor="suratAkhir" className="block text-gray-600">
+              Surat Akhir:
+            </label>
+            <select id="suratAkhir" value={suratAkhir} onChange={(e) => setSuratAkhir(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
+              <option value="">Pilih Surat Akhir</option>
+              {data.surahs.map((surah) => (
+                <option key={surah.number} value={surah.name}>
+                  {surah.number}. {surah.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Ayat Akhir */}
+          <div className="mb-4 w-full">
+            <label htmlFor="ayatAkhir" className="block text-gray-600">
+              Ayat Akhir:
+            </label>
+            <div className="flex items-center">
+              <input type="number" id="ayatAkhir" value={ayatAkhir} onChange={(e) => setAyatAkhir(e.target.value)} className="w-full px-4 py-2 border rounded-l focus:outline-none focus:border-blue-400" min="1" max="286" required />
+            </div>
           </div>
         </div>
 
@@ -193,7 +196,7 @@ const QuranSetoranForm = () => {
         <div className="mb-4">
           <label className="block text-gray-600">Halaman Awal:</label>
           <div className="flex items-center">
-            <input type="text" value={inputValue} onChange={handleInputChange} placeholder="Tambahkan Angka Di Sini" className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" />
+            <input required type="number" value={inputValue} onChange={handleInputChange} placeholder="Tambahkan Angka Di Sini" className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" />
           </div>
         </div>
 
@@ -224,8 +227,8 @@ const QuranSetoranForm = () => {
         </div>
 
         {/* Upload File */}
-        <div className="mb-4">
-          <label className="block text-gray-600 mb-2">Unggah File:</label>
+        <div className="mb-4 w-full">
+          <label className="block text-gray-600 mb-0">Video Anda:</label>
           <FileUpload onFileUpload={handleFileUpload} uploadProgress={setUploadProgress} />
           {uploadProgress > 0 && (
             <div className="text-center mt-2">
@@ -237,7 +240,7 @@ const QuranSetoranForm = () => {
 
         {/* Tombol Submit */}
         <div className="text-center mt-4">
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" disabled={!uploadedFileUrl}>
+          <button type="submit" className={`bg-${uploadedFileUrl ? "blue-500" : "gray-300"} text-white px-4 py-2 rounded-lg hover:bg-${uploadedFileUrl ? "blue-600" : "gray-400"}`} disabled={!uploadedFileUrl}>
             Setorkan Al-Quran
           </button>
         </div>

@@ -4,7 +4,7 @@ import { getDatabase, ref as dbRef, onValue } from "firebase/database";
 import { getStorage, ref as storageRef, getDownloadURL } from "firebase/storage"; // Menggunakan alias storageRef untuk Firebase Storage
 import UserRating from "./HomeSiswa/UserRating/UserRating";
 import UserRatingProfil from "./HomeSiswa/UserRating/UserRatingProfil";
-import Logout from "./Login/Logout";
+import { Avatar } from "@nextui-org/react";
 
 function UserProfile() {
   const [userData, setUserData] = useState({
@@ -53,7 +53,9 @@ function UserProfile() {
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <div className="text-center">
           {userData.profileImageUrl ? (
-            <img
+            <Avatar
+              isBordered
+              color="primary"
               src={userData.profileImageUrl}
               alt="Foto Profil"
               className="w-20 h-20 mx-auto rounded-full mb-4 object-cover" // Menambahkan object-cover untuk mempertahankan aspek rasio
@@ -75,7 +77,6 @@ function UserProfile() {
           <button onClick={handleBackToHome} className="text-indigo-600 hover:underline focus:outline-none">
             Kembali ke Home
           </button>
-          <Logout />
         </div>
       </div>
     </div>

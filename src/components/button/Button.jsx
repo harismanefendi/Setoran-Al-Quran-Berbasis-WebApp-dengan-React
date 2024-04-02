@@ -20,7 +20,7 @@ const AnimatedButton = ({ onClick, children }) => {
   return (
     <button
       onClick={onClick} // Menggunakan event onClick
-      className="relative overflow-hidden bg-ungukalam text-white font-medium py-2 px-4 rounded-lg cursor-pointer focus:outline-none focus:ring focus:ring-blue-300 transition ease-out duration-300 transform hover:scale-110 flex items-center justify-center"
+      className="relative overflow-hidden bg-greendark text-white font-medium py-2 px-4 rounded-lg cursor-pointer focus:outline-none focus:ring focus:ring-blue-300 transition ease-out duration-300 transform hover:scale-110 flex items-center justify-center"
     >
       {rippleArray.length > 0 &&
         rippleArray.map((ripple, index) => (

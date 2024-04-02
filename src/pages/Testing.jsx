@@ -1,23 +1,50 @@
-import react from "react";
+import React from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Select, SelectItem } from "@nextui-org/react";
 
-function Testing() {
+export default function Testing() {
+  const animals = [
+    { label: "Cat", value: "cat" },
+    { label: "Dog", value: "dog" },
+  ];
+
   return (
-    <div className="border shadow rounded-md p-4 max-w-sm w-full mx-auto">
-      <div className="flex space-x-4 animate-pulse">
-        <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-        <div className="flex-1 space-y-6 py-1">
-          <div className="h-2 rounded bg-slate-200"></div>
-          <div className="space-y-3">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-              <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-            </div>
-            <div className="h-2 bg-slate-200 rounded"></div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <Navbar isBordered>
+        <NavbarBrand>
+          <p className="font-bold text-inherit">ACME</p>
+        </NavbarBrand>
+        <NavbarContent className=" sm:flex gap-4" justify="center">
+          <NavbarItem style={{ width: "200px", backgroundColor: "red" }}>
+            <Select color="greendark" variant="flat" label="Select an animal">
+              <SelectItem color="" value="cat">
+                Cat
+              </SelectItem>
+              <SelectItem value="dog">Dog</SelectItem>
+            </Select>
+          </NavbarItem>
+
+          <NavbarItem isActive>
+            <Link href="#" aria-current="page">
+              Customers
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link color="foreground" href="#">
+              Integrations
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <Link href="#">Login</Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Button as={Link} style={{ backgroundColor: "var(--nextui-customColor)" }} href="#" variant="flat">
+              Sign Up
+            </Button>
+          </NavbarItem>
+        </NavbarContent>
+      </Navbar>
     </div>
   );
 }
-
-export default Testing;
