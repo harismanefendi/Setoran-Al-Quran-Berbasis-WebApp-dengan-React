@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import AppName from "../../components/AppName/AppName";
@@ -54,8 +54,8 @@ function Home() {
           <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
             Tips Mudah Menghafal
           </AnimatedButton>
-          <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
-            Ajukan Setoran Via Online
+          <AnimatedButton className="" onClick={() => navigate("/riwayat")}>
+            Riwayat Hafalan
           </AnimatedButton>
           <AnimatedButton onClick={() => navigate("/hafiz-rank")}>Hafizh Rank</AnimatedButton>
         </div>

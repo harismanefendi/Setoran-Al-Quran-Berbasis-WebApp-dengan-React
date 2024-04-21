@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../config/firebase"; // Pastikan ini sesuai dengan struktur folder Anda
 import { ref, set } from "firebase/database";

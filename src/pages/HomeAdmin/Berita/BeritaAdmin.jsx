@@ -9,7 +9,11 @@ const BeritaAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newArticle = { title, content };
+    const newArticle = {
+      title,
+      content,
+      tanggal: new Date().toISOString(), // Tambahkan tanggal hari ini
+    };
     try {
       const articleRef = ref(db, "articles/"); // Specify the Firebase reference
       await firebasePush(articleRef, newArticle); // Use firebasePush to add data to Firebase
@@ -17,6 +21,7 @@ const BeritaAdmin = () => {
       // Reset form fields or provide feedback to the user
       setTitle(""); // Clear the title field
       setContent(""); // Clear the content field
+      window.location.href = `/edit`;
     } catch (error) {
       console.error("Gagal mengirim artikel ke Firebase", error);
     }

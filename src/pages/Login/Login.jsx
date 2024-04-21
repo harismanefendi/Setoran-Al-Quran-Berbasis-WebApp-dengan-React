@@ -11,6 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(true); // State baru
   const navigate = useNavigate();
   const { login } = useAuth(); // Gunakan useAuth
 
@@ -48,7 +49,8 @@ function Login() {
       if (error.code === "auth/user-not-found") {
         alert("Email atau password salah. Silakan coba lagi.");
       } else {
-        alert("Kata Sandi Salah");
+        alert("Email atau password salah. Silakan coba lagi.");
+        setShowSpinner(false); // Atur showSpinner menjadi false
       }
     }
   };
@@ -96,13 +98,17 @@ function Login() {
           </div>
 
           <div className="">
-            <ButtonSpinner buttonText={"Sign in"} isLoading={isLoading} />
+            <ButtonSpinner buttonText={"Sign in"} isLoading={isLoading && showSpinner} /> {/* Memperbarui kondisi */}
           </div>
           <div className="text-center">
-            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 px-2 text-indigo-600 hover:underline focus:outline-none">
               Lupa Sandi?
             </button>
+            <button type="button" onClick={() => navigate("/delete")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+              Hapus Akun?
+            </button>
           </div>
+
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
             <button type="button" onClick={() => navigate("/register")} className="text-indigo-600 hover:underline focus:outline-none">

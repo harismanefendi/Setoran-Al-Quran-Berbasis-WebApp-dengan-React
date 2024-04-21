@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getDatabase, ref as dbRef, onValue, set } from "firebase/database";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
-function EditProfileGuru() {
+function EditProfileAdmin() {
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -15,7 +15,6 @@ function EditProfileGuru() {
   const [isLoadingImage, setIsLoadingImage] = useState(false);
   const [previousProfileImageUrl, setPreviousProfileImageUrl] = useState("");
   const navigate = useNavigate();
-  const kelasOptions = ["1", "2", "3", "4", "5", "6"];
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -23,7 +22,7 @@ function EditProfileGuru() {
       const storedUserData = JSON.parse(storedUser);
       const emailKey = storedUserData.email.replace(/[.$#[\]]/g, ",");
       const db = getDatabase();
-      const userRef = dbRef(db, "guru/" + emailKey);
+      const userRef = dbRef(db, "admin/" + emailKey);
 
       onValue(
         userRef,
@@ -85,12 +84,12 @@ function EditProfileGuru() {
 
     const db = getDatabase();
     const emailKey = profile.email.replace(/[.$#[\]]/g, ",");
-    const userRef = dbRef(db, "guru/" + emailKey);
+    const userRef = dbRef(db, "admin/" + emailKey);
 
     try {
       await set(userRef, profile);
       localStorage.setItem("userKey", JSON.stringify(profile));
-      navigate("/profile-guru");
+      navigate("/profile-admin");
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -143,18 +142,7 @@ function EditProfileGuru() {
             </label>
             <input type="email" id="email" name="email" value={profile.email} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readOnly />
           </div>
-          <div className="mb-4">
-            <label htmlFor="kelas" className="block text-gray-700 text-sm font-bold mb-2">
-              Kelas:
-            </label>
-            <select id="kelas" name="kelas" value={profile.kelas} onChange={handleInputChange} className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-              {kelasOptions.map((kelas) => (
-                <option key={kelas} value={kelas}>
-                  Kelas {kelas}
-                </option>
-              ))}
-            </select>
-          </div>
+
           <div className="flex items-center justify-between">
             <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
               Simpan Perubahan
@@ -166,4 +154,4 @@ function EditProfileGuru() {
   );
 }
 
-export default EditProfileGuru;
+export default EditProfileAdmin;

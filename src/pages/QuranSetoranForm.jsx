@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { push, ref as dbRef, db } from "../config/firebase";
 import { onValue } from "firebase/database";
 import FileUpload from "./FileUpload";
@@ -111,7 +111,7 @@ const QuranSetoranForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-4 p-4 bg-white rounded-lg shadow-md font-body">
+    <div className="w-full mx-auto mt-4 p-4 bg-white rounded-lg shadow-md font-body">
       <div className="text-center">
         <p className="text-center mt-4 text-gray-600 text-base font-body font-bold">Selamat datang di halaman setoran rekaman. Mohon isi kolom yang tersedia dengan benar dan tepat.</p>
       </div>

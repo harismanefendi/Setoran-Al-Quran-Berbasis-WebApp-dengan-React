@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -6,7 +6,7 @@ import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
 import { useAuth } from "../../config/Routes/AuthContext";
 
-function AdminLogin() {
+function GuruLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,8 +19,10 @@ function AdminLogin() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Mengambil data pengguna dari Firebase Database
-      const emailKey = user.email.replace(".", ","); // Ganti titik di email dengan koma
+      // Mengganti titik di email dengan koma
+      const emailKey = user.email.replace(/\./g, ",");
+
+      // Mengambil data guru dari Firebase Database
       const userRef = ref(db, `admin/${emailKey}`);
 
       get(userRef)
@@ -28,21 +30,22 @@ function AdminLogin() {
           if (snapshot.exists()) {
             const userData = snapshot.val();
             localStorage.setItem("user", JSON.stringify(userData));
-            login(); // Memanggil fungsi login untuk mengatur status isAuthenticated menjadi true
-            navigate("/halaman-admin"); // Arahkan ke halaman home
+            login(); // Mengatur status isAuthenticated menjadi true
+            navigate("/profile-admin"); // Arahkan ke halaman beranda guru
           } else {
-            console.log("No user data available");
+            // Guru tidak ditemukan di tabel guru
+            alert("Anda belum terdaftar sebagai guru. Silakan registrasi terlebih dahulu.");
           }
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
         });
     } catch (error) {
+      console.error("Error:", error.message);
       if (error.code === "auth/user-not-found") {
-        window.alert("Akun belum terdaftar. Silakan registrasi terlebih dahulu.");
+        alert("Email atau password salah. Silakan coba lagi.");
       } else {
-        console.error("Error:", error.message);
-        window.alert("Email atau password salah. Silakan coba lagi.");
+        alert("Terjadi kesalahan saat mencoba login.");
       }
     }
   };
@@ -89,18 +92,20 @@ function AdminLogin() {
             </div>
           </div>
 
-          <div className="mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mb-4"
-            >
+          <div className="">
+            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
+            </button>
+          </div>
+          <div className="text-center">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+              Lupa Sandi?
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <button type="button" onClick={() => navigate("/register-admin")} className="text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/register-admin")} className="text-indigo-600 hover:underline focus:outline-none" disabled>
               Register now
             </button>
           </div>
@@ -110,4 +115,4 @@ function AdminLogin() {
   );
 }
 
-export default AdminLogin;
+export default GuruLogin;

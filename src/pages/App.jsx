@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../config/Routes/AuthContext"; // Import AuthProvider
 import PrivateRoute from "../config/Routes/PrivateRoute"; // Import PrivateRoute
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 // Impor lainnya...
 
 import Home from "./HomeSiswa/Home";
@@ -41,6 +41,18 @@ import { requestFirebaseNotificationPermission } from "../config/notifikasi/fire
 import StudentList from "./HomeSiswa/StudentList/StudentList";
 import ForgotPassword from "./Login/ForgotPassword";
 import Testing from "./Testing";
+import Riwayat from "./HomeSiswa/Riwayat";
+import RiwayatAll from "./HomeGuru/RiwayatAll";
+import ProfileAdmin from "./HomeAdmin/profile/ProfileAdmin";
+import EditProfileAdmin from "./HomeAdmin/profile/EditProfileAdmin";
+import LogoutGuru from "./HomeGuru/Logout/LogoutGuru";
+import Persetujuan from "./HomeAdmin/Persetujuan/PersetujuanGuru";
+import DeleteAccount from "./Login/DeleteAccount";
+import EditBerita from "./HomeAdmin/Berita/EditBerita";
+import Edit from "./HomeAdmin/Berita/Edit";
+import EditArticle from "./HomeAdmin/Berita/EditArticle";
+import ApprovalPageSiswa from "./HomeAdmin/Persetujuan/PersetujuanSiswa";
+import NavbarAdmin from "./HomeAdmin/NavbarAdmin";
 
 function App() {
   useEffect(() => {
@@ -58,6 +70,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/navbar-admin" element={<NavbarAdmin />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/register-admin" element={<RegisterAdmin />} />
           <Route path="/guru" element={<GuruLogin />} />
@@ -66,6 +79,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/file" element={<FileUpload />} />
           <Route path="/feedback-siswa" element={<FeedbackSiswa />} />
+          <Route path="/riwayat" element={<Riwayat />} />
 
           <Route path="/home/login" element={<Home />} />
 
@@ -132,6 +146,15 @@ function App() {
 
           {/* HomeGuru */}
           <Route
+            path="/riwayat/:kelas"
+            element={
+              <Layout>
+                <RiwayatAll />
+              </Layout>
+            }
+          />
+
+          <Route
             path="/setoran/guru/:kelas" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
             element={
               <Layout>
@@ -171,12 +194,44 @@ function App() {
               </Layout>
             }
           />
+
+          <Route
+            path="/logout-guru" // Tambahkan titik dua (:) untuk mendapatkan parameter kelas
+            element={
+              <Layout>
+                <LogoutGuru />
+              </Layout>
+            }
+          />
           {/* halaman Berita */}
           <Route path="/info-terkini" element={<DaftarBerita />} />
           <Route path="/article/:articleId" element={<HalamanBerita />} />
+
           {/* Berita Admin */}
           <Route path="/berita-admin" element={<BeritaAdmin />} />
+          <Route path="/edit-berita" element={<EditBerita />} />
+          <Route
+            path="/edit"
+            element={
+              <LayoutAdmin>
+                <Edit />
+              </LayoutAdmin>
+            }
+          />
+          <Route path="/edit-article/:id" element={<EditArticle />} />
           <Route path="/testing" element={<Testing />} />
+          <Route
+            path="/profile-admin"
+            element={
+              <LayoutAdmin>
+                <ProfileAdmin />
+              </LayoutAdmin>
+            }
+          />
+          <Route path="/edit-profile-admin" element={<EditProfileAdmin />} />
+          <Route path="/persetujuan-guru" element={<Persetujuan />} />
+          <Route path="/persetujuan-siswa" element={<ApprovalPageSiswa />} />
+          <Route path="/delete" element={<DeleteAccount />} />
         </Routes>
       </Router>
     </AuthProvider>

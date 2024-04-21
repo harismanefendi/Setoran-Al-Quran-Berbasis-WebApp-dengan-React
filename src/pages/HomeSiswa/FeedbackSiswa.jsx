@@ -18,22 +18,20 @@ function FeedbackSiswa() {
       if (feedbackSnapshot.exists()) {
         get(setoranRef).then((setoranSnapshot) => {
           if (setoranSnapshot.exists()) {
-            // Gabungkan data feedback dengan data setoran
             const feedbackData = feedbackSnapshot.val();
             const setoranData = setoranSnapshot.val();
             const combinedData = Object.keys(feedbackData).map((key) => {
               return {
-                ...setoranData[key], // Pertama ambil data setoran
-                ...feedbackData[key], // Kemudian gabungkan dengan data feedback
+                ...setoranData[key],
+                ...feedbackData[key],
               };
             });
             setFeedbackList(combinedData);
           }
         });
       } else {
-        console.log("No feedback data available");
-
         setFeedbackList([]);
+        return <div>Belum ada Feedback</div>; // Return JSX "Belum ada feedback."
       }
     });
   }, [userEmail]);

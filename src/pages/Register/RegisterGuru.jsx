@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../config/firebase"; // Pastikan ini sesuai dengan struktur folder Anda
-import { ref, set } from "firebase/database";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../config/firebase"; // Sesuaikan dengan konfigurasi Anda
+import { ref, get, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
 const RegisterGuru = () => {
@@ -37,19 +37,22 @@ const RegisterGuru = () => {
     if (!emailError && !passwordError && !confirmPasswordError) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          const userEmailKey = email.replace(/\./g, ","); // Mengganti titik dalam email dengan koma
+          const userEmailKey = email.replace(/\./g, ",");
           const userRef = ref(db, `guru/${userEmailKey}`);
 
           const userData = {
             email: email,
             name: name,
-            kelas: "", // Isi dengan kelas jika ada
+            kelas: "",
+            registrationPending: true,
+            approved: false,
           };
 
           set(userRef, userData)
             .then(() => {
               console.log("User data added to Realtime Database");
-              navigate("/"); // Navigasi ke halaman utama atau login setelah pendaftaran berhasil
+              window.alert("Registrasi berhasil. Tunggu persetujuan dari admin.");
+              navigate("/guru"); // Pindahkan pengguna ke halaman guru
             })
             .catch((error) => {
               console.error("Error saving user data:", error);
@@ -74,7 +77,6 @@ const RegisterGuru = () => {
         <h2 className="text-3xl font-extrabold text-gray-900 text-center">Register</h2>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
-            {/* Nama */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
@@ -91,8 +93,6 @@ const RegisterGuru = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
@@ -115,8 +115,6 @@ const RegisterGuru = () => {
               />
               {emailError && <p className="mt-2 text-sm text-red-500">{emailError}</p>}
             </div>
-
-            {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -144,8 +142,6 @@ const RegisterGuru = () => {
               />
               {passwordError && <p className="mt-2 text-sm text-red-500">{passwordError}</p>}
             </div>
-
-            {/* Konfirmasi Password */}
             <div>
               <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
                 Confirm Password
@@ -173,7 +169,6 @@ const RegisterGuru = () => {
               {confirmPasswordError && <p className="mt-2 text-sm text-red-500">{confirmPasswordError}</p>}
             </div>
           </div>
-
           <div className="pt-4">
             <button
               type="submit"

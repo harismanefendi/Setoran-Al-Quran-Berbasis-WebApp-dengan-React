@@ -31,10 +31,11 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, child, ref, push as firebasePush, set as firebaseSet } from "firebase/database";
+import { getDatabase, ref, push as firebasePush, set as firebaseSet, remove as firebaseRemove, get } from "firebase/database"; // Menambahkan ekspor get
 import { getStorage } from "firebase/storage";
 import { getMessaging } from "firebase/messaging";
 
+// Konfigurasi Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBtp-Ev4oqWeeOk2daBjdV2f5ANJTxViVQ",
   authDomain: "setoran-online.firebaseapp.com",
@@ -46,18 +47,29 @@ const firebaseConfig = {
   measurementId: "G-TF40WP54CV",
 };
 
+// Inisialisasi aplikasi Firebase
 const app = initializeApp(firebaseConfig);
+
+// Mendapatkan instance auth, database, storage, dan messaging
 const auth = getAuth(app);
 const db = getDatabase(app);
-const storage = getStorage(app); // Inisialisasi Firebase Storage
-const messaging = getMessaging(app); // Inisialisasi Firebase Messaging
+const storage = getStorage(app);
+const messaging = getMessaging(app);
 
+// Fungsi push untuk menambahkan data
 const push = (dataRef, dataToPush) => {
   return firebasePush(dataRef, dataToPush);
 };
 
+// Fungsi set untuk mengatur data
 const set = (dataRef, dataToSet) => {
   return firebaseSet(dataRef, dataToSet);
 };
 
-export { app, auth, db, child, ref, push, set, storage, messaging }; // Eksport storage
+// Fungsi remove untuk menghapus data
+const remove = (dataRef) => {
+  return firebaseRemove(dataRef);
+};
+
+// Export semua instance dan fungsi yang diperlukan
+export { app, auth, db, ref, push, set, remove, storage, messaging, get }; // Menambahkan get ke dalam ekspor

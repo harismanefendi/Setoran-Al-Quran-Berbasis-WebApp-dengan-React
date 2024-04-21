@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 
@@ -6,6 +7,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +29,9 @@ const ForgotPassword = () => {
         setError("Terjadi kesalahan saat mengirim email reset kata sandi. Silakan coba lagi.");
       }
     }
+  };
+  const handleBackToHome = () => {
+    navigate("/guru"); // Ganti dengan path ke halaman Home Anda
   };
 
   return (
@@ -61,6 +66,11 @@ const ForgotPassword = () => {
             </button>
           </div>
         </form>
+        <div className="mt-3 text-center">
+          <button onClick={handleBackToHome} className="text-indigo-600 hover:underline focus:outline-none">
+            Kembali ke Home
+          </button>
+        </div>
       </div>
     </div>
   );

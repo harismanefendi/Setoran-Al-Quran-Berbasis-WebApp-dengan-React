@@ -46,6 +46,7 @@ const HalamanBerita = () => {
       <div className="article-content text-gray-700 text-lg leading-relaxed space-y-4">
         {/* Pastikan untuk membersihkan dan memvalidasi HTML sebelum menggunakan dangerouslySetInnerHTML */}
         <div dangerouslySetInnerHTML={{ __html: article.content }} />
+        <div className="text-sm text-gray-500">Tanggal Pembuatan: {new Date(article.tanggal).toLocaleString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</div>
       </div>
     </div>
   );

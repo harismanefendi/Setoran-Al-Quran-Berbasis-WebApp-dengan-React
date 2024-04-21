@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ref as dbRef, db } from "../../config/firebase/index";
 import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";

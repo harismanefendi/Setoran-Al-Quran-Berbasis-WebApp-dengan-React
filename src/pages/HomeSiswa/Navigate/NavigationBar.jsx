@@ -5,7 +5,7 @@ function NavigationBar() {
   const location = useLocation();
 
   return (
-    <div className="border pt-2 pb-2 pr-3 pl-3 rounded-2xl bg-greendark max-w-md mx-auto flex justify-between items-center px-4 space-x-2">
+    <div className="border pt-2 pb-2 pr-3 pl-3 rounded-2xl bg-greendark mx-auto flex justify-between items-center px-4 space-x-2">
       <button
         className={`flex flex-col items-center text-xs text-gray-400 hover:text-white transition-colors ${location.pathname === "/home/login" ? "text-white" : ""}`}
         onClick={() => navigate("/home/login", { state: { userEmail: "email_siswa_di_sini" } })}

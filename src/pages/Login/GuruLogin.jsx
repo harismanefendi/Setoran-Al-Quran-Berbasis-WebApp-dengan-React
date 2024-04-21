@@ -10,7 +10,7 @@ function GuruLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth(); // Gunakan useAuth
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,21 +19,21 @@ function GuruLogin() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Mengganti titik di email dengan koma
       const emailKey = user.email.replace(/\./g, ",");
-
-      // Mengambil data guru dari Firebase Database
       const userRef = ref(db, `guru/${emailKey}`);
 
       get(userRef)
         .then((snapshot) => {
           if (snapshot.exists()) {
             const userData = snapshot.val();
-            localStorage.setItem("user", JSON.stringify(userData));
-            login(); // Mengatur status isAuthenticated menjadi true
-            navigate("/guru/login"); // Arahkan ke halaman beranda guru
+            if (userData.approved) {
+              localStorage.setItem("user", JSON.stringify(userData));
+              login();
+              navigate("/profile-guru");
+            } else {
+              alert("Akun Anda belum disetujui oleh admin. Harap tunggu persetujuan admin sebelum login.");
+            }
           } else {
-            // Guru tidak ditemukan di tabel guru
             alert("Anda belum terdaftar sebagai guru. Silakan registrasi terlebih dahulu.");
           }
         })
@@ -53,9 +53,7 @@ function GuruLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Login <br /> Saja kita liat aja nanti
-        </h2>
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">Login</h2>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -92,18 +90,20 @@ function GuruLogin() {
             </div>
           </div>
 
-          <div className="mb-4">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mb-4"
-            >
+          <div className="">
+            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
+            </button>
+          </div>
+          <div className="text-center">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+              Lupa Sandi?
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <button type="button" onClick={() => navigate("/register-guru")} className="text-indigo-600 hover:underline focus:outline-none" disabled>
+            <button type="button" onClick={() => navigate("/register-guru")} className="text-indigo-600 hover:underline focus:outline-none">
               Register now
             </button>
           </div>

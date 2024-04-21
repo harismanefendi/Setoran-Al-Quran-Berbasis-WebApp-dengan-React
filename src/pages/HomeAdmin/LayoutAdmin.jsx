@@ -1,11 +1,10 @@
 // Layout.jsx
-import React from "react";
-import HalamanAdmin from "./HalamanAdmin";
+import NavbarAdmin from "./NavbarAdmin";
 
 const LayoutAdmin = ({ children }) => {
   return (
     <div>
-      <HalamanAdmin />
+      <NavbarAdmin />
       {children}
     </div>
   );

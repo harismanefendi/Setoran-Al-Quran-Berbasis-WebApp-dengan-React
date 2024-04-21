@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { ref as dbRef, db, set } from "../../config/firebase/index";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import { ref as dbRef, db } from "../../config/firebase/index";
 import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";
-import "tailwindcss/tailwind.css";
+import { format } from "date-fns";
 
 const Setoran = () => {
   const [setoranList, setSetoranList] = useState([]);
   const { kelas } = useParams();
+  const [jumlahSetoranSiswa, setJumlahSetoranSiswa] = useState({});
+  const [selectedSiswa, setSelectedSiswa] = useState(null);
 
   useEffect(() => {
     const setoranRef = dbRef(db, "setoran");
@@ -17,7 +21,7 @@ const Setoran = () => {
         for (const email in data) {
           for (const id in data[email]) {
             const setoran = data[email][id];
-            if (setoran.kelas === kelas) {
+            if (setoran.kelas === kelas && setoran.status === "Diterima") {
               setoranArray.push({
                 id,
                 emailKey: email,
@@ -29,66 +33,85 @@ const Setoran = () => {
         setSetoranList(setoranArray);
       }
     });
+    console.log("Setoran list telah di-update pada tanggal:", new Date().toLocaleDateString());
   }, [kelas]);
 
-  const updateStatus = (emailKey, idSetoran, newStatus, setoran) => {
-    const setoranRef = dbRef(db, `setoran/${emailKey}/${idSetoran}`);
-    set(setoranRef, { ...setoran, status: newStatus })
-      .then(() => {
-        alert(`Status telah diupdate menjadi: ${newStatus}`);
-      })
-      .catch((error) => console.error("Error updating status:", error));
+  useEffect(() => {
+    const jumlahSetoran = {};
+    setoranList.forEach((setoran) => {
+      jumlahSetoran[setoran.namaPeserta] = (jumlahSetoran[setoran.namaPeserta] || 0) + 1;
+    });
+    setJumlahSetoranSiswa(jumlahSetoran);
+    console.log("Jumlah setoran siswa telah dihitung pada tanggal:", new Date().toLocaleDateString());
+  }, [setoranList]);
+
+  const downloadPdf = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Nama Peserta", "Tanggal Upload", "Surat Awal", "Ayat Awal", "Surat Akhir", "Ayat Akhir", "Status"];
+    const tableRows = [];
+
+    setoranList.forEach((setoran) => {
+      const formattedDate = format(new Date(setoran.tanggalUpload), "EEEE, d MMMM yyyy");
+      const setoranData = [setoran.namaPeserta, formattedDate, setoran.suratAwal, setoran.ayatAwal, setoran.suratAkhir, setoran.ayatAkhir, setoran.status];
+      tableRows.push(setoranData);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    doc.text(`Daftar Setoran Siswa Kelas ${kelas}`, 14, 15);
+    doc.save(`setoran_kelas_${kelas}.pdf`);
   };
 
-  const handleFeedback = (emailKey, idSetoran, setoran) => {
-    const action = window.confirm("Apakah setoran ini diterima? Tekan OK untuk 'Diterima' atau Cancel untuk 'Ulangi'");
-    if (action) {
-      updateStatus(emailKey, idSetoran, "Diterima", setoran);
-      const rate = prompt("Berikan rating untuk setoran ini (1-5):");
-      const comment = prompt("Tambahkan komentar untuk setoran ini:");
-      if (rate && comment) {
-        saveFeedback(emailKey, idSetoran, rate, comment);
-      }
-    } else {
-      updateStatus(emailKey, idSetoran, "Diulangi", setoran);
-    }
+  const toggleDetail = (namaPeserta) => {
+    console.log("Selected siswa:", namaPeserta);
+    setSelectedSiswa((prevSelectedSiswa) => (prevSelectedSiswa === namaPeserta ? null : namaPeserta));
   };
 
-  const saveFeedback = (emailKey, idSetoran, rate, comment) => {
-    const feedbackRef = dbRef(db, `feedbackSetoran/${emailKey}/${idSetoran}`);
-    set(feedbackRef, { rating: rate, komentar: comment })
-      .then(() => alert("Feedback berhasil disimpan"))
-      .catch((error) => console.error("Error menyimpan feedback:", error));
-  };
+  console.log(setoranList); // Tambahkan ini untuk memeriksa isi setoranList
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
       <div className="text-center mb-6">
         <p className="text-2xl font-semibold text-gray-800">Daftar Setoran Siswa Kelas {kelas}</p>
       </div>
+      <button onClick={downloadPdf} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Download PDF
+      </button>
       <div>
-        {setoranList.map((setoran) => (
-          <div key={setoran.id} className="border-b border-gray-200 py-4 last:border-b-0">
-            <p className="text-gray-700 font-medium">Nama: {setoran.namaPeserta}</p>
-            <p className="text-gray-600">Juz: {setoran.juz}</p>
-            <p className="text-gray-600">Input Value: {setoran.inputValue}</p>
-            <p className="text-gray-600">
-              Surat: {setoran.suratAwal} ayat {setoran.ayatAwal} sampai {setoran.suratAkhir} ayat {setoran.ayatAkhir}
-            </p>
-            <p className="text-gray-600">Status: {setoran.status}</p>
-            <div className="my-3 flex justify-center">
-              <video width="320" height="240" controls>
-                <source src={setoran.uploadedFileUrl} type="video/mp4" />
-              </video>
-            </div>
-            <div className="flex justify-end mt-2 font-semibold">
-              <button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
-                Beri Feedback
-              </button>
-              {/* Tombol atau aksi tambahan jika diperlukan */}
-            </div>
+        {setoranList.length > 0 && (
+          <div className="space-y-4">
+            {Object.keys(jumlahSetoranSiswa).map((namaPeserta, index) => (
+              <div key={index} className="border rounded p-4">
+                <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleDetail(namaPeserta)}>
+                  <p className="text-lg font-semibold">Nama: {namaPeserta}</p>
+                  <p>Jumlah Setoran Diterima: {jumlahSetoranSiswa[namaPeserta]}</p>
+                </div>
+                {selectedSiswa === namaPeserta && (
+                  <div className="mt-2 p-4 bg-gray-100 rounded-md">
+                    <p className="text-sm font-semibold">Detail Setoran:</p>
+                    {setoranList
+                      .filter((setoran) => setoran.namaPeserta === namaPeserta)
+                      .map((setoran, index) => (
+                        <div key={index} className="mt-2">
+                          <p>Tanggal Upload: {format(new Date(setoran.tanggal), "EEEE, d MMMM yyyy")}</p>
+                          <p>
+                            Surat Awal: {setoran.suratAwal}, Ayat Awal: {setoran.ayatAwal}
+                          </p>
+                          <p>
+                            Surat Akhir: {setoran.suratAkhir}, Ayat Akhir: {setoran.ayatAkhir}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

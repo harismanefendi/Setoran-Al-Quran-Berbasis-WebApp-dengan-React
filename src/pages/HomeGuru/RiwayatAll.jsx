@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ref as dbRef, db, set } from "../../config/firebase/index";
 import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";
+import "tailwindcss/tailwind.css";
 
-const SetoranGuru = () => {
+const RiwayatAll = () => {
   const [setoranList, setSetoranList] = useState([]);
   const { kelas } = useParams();
 
@@ -16,7 +17,7 @@ const SetoranGuru = () => {
         for (const email in data) {
           for (const id in data[email]) {
             const setoran = data[email][id];
-            if (setoran.kelas === kelas && setoran.status === "Belum Diperiksa") {
+            if (setoran.kelas === kelas) {
               setoranArray.push({
                 id,
                 emailKey: email,
@@ -61,32 +62,36 @@ const SetoranGuru = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 px-4">
-      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-8">Daftar Setoran Siswa Kelas {kelas}</h1>
-      {setoranList.map((setoran) => (
-        <div key={setoran.id} className="bg-white rounded-lg shadow-md mb-6 p-4">
-          <p className="text-lg font-semibold text-gray-800 mb-2">Nama: {setoran.namaPeserta}</p>
-          <p className="text-gray-600 mb-2">Juz: {setoran.juz}</p>
-          <p className="text-gray-600 mb-2">Input Value: {setoran.inputValue}</p>
-          <p className="text-gray-600 mb-2">
-            Surat: {setoran.suratAwal} ayat {setoran.ayatAwal} sampai {setoran.suratAkhir} ayat {setoran.ayatAkhir}
-          </p>
-          <p className="text-gray-600 mb-2">Status: {setoran.status}</p>
-          <p className="text-gray-600 mb-2">Tanggal Upload: {new Date(setoran.tanggal).toLocaleDateString()}</p>
-          <div className="my-3 flex justify-center">
-            <video width="320" height="240" controls className="rounded-lg shadow-md">
-              <source src={setoran.uploadedFileUrl} type="video/mp4" />
-            </video>
+    <div className="w-full max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+      <div className="text-center mb-6">
+        <p className="text-2xl font-semibold text-gray-800">Daftar Setoran Siswa Kelas {kelas}</p>
+      </div>
+      <div>
+        {setoranList.map((setoran) => (
+          <div key={setoran.id} className="border-b border-gray-200 py-4 last:border-b-0">
+            <p className="text-gray-700 font-medium">Nama: {setoran.namaPeserta}</p>
+            <p className="text-gray-600">Juz: {setoran.juz}</p>
+            <p className="text-gray-600">Input Value: {setoran.inputValue}</p>
+            <p className="text-gray-600">
+              Surat: {setoran.suratAwal} ayat {setoran.ayatAwal} sampai {setoran.suratAkhir} ayat {setoran.ayatAkhir}
+            </p>
+            <p className="text-gray-600">Status: {setoran.status}</p>
+            <div className="my-3 flex justify-center">
+              <video width="320" height="240" controls>
+                <source src={setoran.uploadedFileUrl} type="video/mp4" />
+              </video>
+            </div>
+            <div className="flex justify-end mt-2 font-semibold">
+              <button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
+                Beri Feedback
+              </button>
+              {/* Tombol atau aksi tambahan jika diperlukan */}
+            </div>
           </div>
-          <div className="flex justify-end">
-            <button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mr-2">
-              Beri Feedback
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
 
-export default SetoranGuru;
+export default RiwayatAll;

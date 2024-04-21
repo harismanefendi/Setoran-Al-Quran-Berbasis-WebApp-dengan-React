@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref as dbRef, onValue } from "firebase/database";
-import LogoutGuru from "./Logout/LogoutGuru";
+import LogoutAdmin from "../Logout/LogoutAdmin";
 
-function ProfileGuru() {
+function ProfileAdmin() {
   const [guruData, setGuruData] = useState({
     name: "Loading...",
     email: "loading@example.com",
@@ -18,7 +18,7 @@ function ProfileGuru() {
     if (storedGuru && storedGuru.email) {
       const db = getDatabase();
       const emailKey = storedGuru.email.replace(/[.$#[\]]/g, ",");
-      const guruRef = dbRef(db, `guru/${emailKey}`);
+      const guruRef = dbRef(db, `admin/${emailKey}`);
 
       const unsubscribe = onValue(guruRef, async (snapshot) => {
         if (snapshot.exists()) {
@@ -38,30 +38,30 @@ function ProfileGuru() {
     }
   }, [navigate]);
 
-  // const handleBackToDashboard = () => {
-  //   navigate("/dashboard");
-  // };
+  const handleBackToDashboard = () => {
+    navigate("/profile-admin");
+  };
   const handleEditProfile = () => {
-    navigate("/edit-profile-guru");
+    navigate("/edit-profile-admin");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <div className="text-center">
-          {guruData.profileImageUrl ? <img src={guruData.profileImageUrl} alt="Foto Profil" className="w-20 h-20 mx-auto rounded-full mb-4" /> : <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>}
+          {guruData.profileImageUrl ? <img src={guruData.profileImageUrl} alt="Foto Profil" className="w-20 h-20 mx-auto rounded-full mb-4 object-cover" /> : <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>}
           <h2 className="text-xl font-semibold">{guruData.name}</h2>
           <p className="text-gray-500">Email: {guruData.email}</p>
-          <p className="text-gray-500">Kelas: {guruData.kelas}</p>
         </div>
         <div className="mt-6 text-center">
           <button onClick={handleEditProfile} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
             Edit Profil
           </button>
+          <br />
         </div>
         <div className="mt-3 text-center">
-          <button className="text-indigo-600 hover:underline focus:outline-none">
-            <LogoutGuru />
+          <button onClick={handleBackToDashboard} className="hover:text-red-500 text-indigo-600 hover:underline focus:outline-none">
+            <LogoutAdmin />
           </button>
         </div>
       </div>
@@ -69,4 +69,4 @@ function ProfileGuru() {
   );
 }
 
-export default ProfileGuru;
+export default ProfileAdmin;
