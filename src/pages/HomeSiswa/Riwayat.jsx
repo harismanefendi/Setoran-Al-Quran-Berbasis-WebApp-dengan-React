@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../config/firebase";
-import Loading from "../../components/LoadingFeedback/Loading";
+import RiwayatSkeleton from "../../components/skeleton/RiwayatSkeleton";
 import NavigationBar from "./Navigate/NavigationBar";
+import { useNavigate } from "react-router-dom";
 
 function Riwayat() {
   const [setoranList, setSetoranList] = useState([]);
@@ -29,6 +30,12 @@ function Riwayat() {
     });
   }, [userEmail]);
 
+  const navigate = useNavigate();
+
+  const handleDownload = () => {
+    navigate("/download-form2");
+  };
+
   return (
     <div>
       <div className="container mx-auto p-4">
@@ -37,7 +44,7 @@ function Riwayat() {
           <thead>
             <tr>
               <th className="px-4 py-2">Hari dan Tanggal</th>
-              <th className="px-4 py-2">Awal Surah</th>
+              <th className="px-4 py-2">Surah</th>
               <th className="px-4 py-2">Status</th>
             </tr>
           </thead>
@@ -53,12 +60,15 @@ function Riwayat() {
             ) : (
               <tr>
                 <td className="border px-4 py-2" colSpan="3">
-                  <Loading text="Riwayat Setoran" />
+                  <RiwayatSkeleton />
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+      </div>
+      <div>
+        <button onClick={handleDownload}>Download</button>
       </div>
       <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
         <NavigationBar />

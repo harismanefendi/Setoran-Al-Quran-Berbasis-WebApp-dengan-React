@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { ref as dbRef, db, set } from "../../config/firebase/index";
+import { ref as dbRef, db, set, get } from "../../config/firebase/index"; // Import get function
 import { onValue } from "firebase/database";
 import { useParams } from "react-router-dom";
+import FeedbackPopup from "./Popup/FeedbackPopup";
+import { Popover, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 
 const SetoranGuru = () => {
   const [setoranList, setSetoranList] = useState([]);
+  const [selectedSetoran, setSelectedSetoran] = useState(null);
+  const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
+  const [namaUstadz, setNamaUstadz] = useState("");
   const { kelas } = useParams();
+
+  // Assuming the logged-in user's email is available via some auth context or similar
+  const loggedInEmail = "12050310375@students.uin-suska.ac.id";
 
   useEffect(() => {
     const setoranRef = dbRef(db, "setoran");
@@ -16,7 +24,7 @@ const SetoranGuru = () => {
         for (const email in data) {
           for (const id in data[email]) {
             const setoran = data[email][id];
-            if (setoran.kelas === kelas && setoran.status === "Belum Diperiksa") {
+            if (setoran.kelas === kelas && setoran.status === "belum diperiksa") {
               setoranArray.push({
                 id,
                 emailKey: email,
@@ -28,36 +36,75 @@ const SetoranGuru = () => {
         setSetoranList(setoranArray);
       }
     });
-  }, [kelas]);
 
-  const updateStatus = (emailKey, idSetoran, newStatus, setoran) => {
+    const guruRef = dbRef(db, `guru/${loggedInEmail.replace(/\./g, ",")}`);
+    get(guruRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setNamaUstadz(data.namaUstadz);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching namaUstadz:", error);
+      });
+  }, [kelas, loggedInEmail]);
+
+  const updateStatus = (emailKey, idSetoran, newStatus, setoran, komentar = "") => {
     const setoranRef = dbRef(db, `setoran/${emailKey}/${idSetoran}`);
-    set(setoranRef, { ...setoran, status: newStatus })
+    set(setoranRef, { ...setoran, status: newStatus, komentar })
       .then(() => {
-        alert(`Status telah diupdate menjadi: ${newStatus}`);
+        console.log(`Status telah diupdate menjadi: ${newStatus}`);
       })
       .catch((error) => console.error("Error updating status:", error));
   };
 
   const handleFeedback = (emailKey, idSetoran, setoran) => {
-    const action = window.confirm("Apakah setoran ini diterima? Tekan OK untuk 'Diterima' atau Cancel untuk 'Ulangi'");
-    if (action) {
+    setSelectedSetoran({ emailKey, idSetoran, setoran });
+    setShowFeedbackPopup(true);
+  };
+
+  const saveFeedback = (formData) => {
+    const { emailKey, idSetoran } = selectedSetoran;
+    const feedbackRef = dbRef(db, `feedbackSetoran/${emailKey}/${idSetoran}`);
+    const feedbackData = {
+      tajwid: formData.tajwid,
+      komentar: formData.komentar,
+      kelancaran: formData.kelancaran,
+      rating: formData.rating,
+      namaUstadz: formData.namaUstadz,
+    };
+    set(feedbackRef, feedbackData)
+      .then(() => {
+        console.log("Feedback berhasil disimpan");
+        setSelectedSetoran(null);
+        setShowFeedbackPopup(false);
+      })
+      .catch((error) => console.error("Error menyimpan feedback:", error));
+  };
+
+  const handleShow = () => {
+    if (selectedSetoran) {
+      setShowFeedbackPopup(true);
+    }
+  };
+  const handleAccept = () => {
+    if (selectedSetoran) {
+      const { emailKey, idSetoran, setoran } = selectedSetoran;
       updateStatus(emailKey, idSetoran, "Diterima", setoran);
-      const rate = prompt("Berikan rating untuk setoran ini (1-5):");
-      const comment = prompt("Tambahkan komentar untuk setoran ini:");
-      if (rate && comment) {
-        saveFeedback(emailKey, idSetoran, rate, comment);
-      }
-    } else {
-      updateStatus(emailKey, idSetoran, "Diulangi", setoran);
     }
   };
 
-  const saveFeedback = (emailKey, idSetoran, rate, comment) => {
-    const feedbackRef = dbRef(db, `feedbackSetoran/${emailKey}/${idSetoran}`);
-    set(feedbackRef, { rating: rate, komentar: comment })
-      .then(() => alert("Feedback berhasil disimpan"))
-      .catch((error) => console.error("Error menyimpan feedback:", error));
+  const handleRetry = () => {
+    const komentar = prompt("Masukkan komentar untuk setoran yang diulangi:");
+    if (komentar) {
+      if (selectedSetoran) {
+        const { emailKey, idSetoran, setoran } = selectedSetoran;
+        updateStatus(emailKey, idSetoran, "Diulangi", setoran, komentar);
+      }
+    } else {
+      alert("Komentar harus diisi untuk setoran yang diulangi.");
+    }
   };
 
   return (
@@ -78,10 +125,26 @@ const SetoranGuru = () => {
               <source src={setoran.uploadedFileUrl} type="video/mp4" />
             </video>
           </div>
-          <div className="flex justify-end">
-            <button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md mr-2">
-              Beri Feedback
-            </button>
+          <div className="text-center">
+            <Popover showArrow={true} placement="bottom">
+              <PopoverTrigger>
+                <Button onClick={() => handleFeedback(setoran.emailKey, setoran.id, setoran)}>Beri Feedback</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <div className="p-4">
+                  <p>Apakah setoran diterima atau diulangi?</p>
+                  <div className="flex justify-between mt-4">
+                    <Popover showArrow={true} placement="bottom">
+                      <PopoverTrigger>
+                        <Button onClick={handleShow}>Diterima</Button>
+                      </PopoverTrigger>
+                      <PopoverContent>{showFeedbackPopup && <FeedbackPopup isVisible={showFeedbackPopup} onAccept={handleAccept} onSubmit={saveFeedback} namaUstadz={namaUstadz} />}</PopoverContent>
+                    </Popover>
+                    <Button onClick={handleRetry}>Diulangi</Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       ))}

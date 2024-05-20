@@ -5,7 +5,7 @@ import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObjec
 
 function EditProfileGuru() {
   const [profile, setProfile] = useState({
-    name: "",
+    namaUstadz: "",
     email: "",
     kelas: "",
     profileImage: null,
@@ -129,9 +129,9 @@ function EditProfileGuru() {
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={profile.name}
+              id="namaUstadz"
+              name="namaUstadz"
+              value={profile.namaUstadz}
               onChange={handleInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required

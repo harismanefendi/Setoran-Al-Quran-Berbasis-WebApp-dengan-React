@@ -24,7 +24,7 @@ function ProfileGuru() {
         if (snapshot.exists()) {
           const data = snapshot.val();
           setGuruData({
-            name: data.name || "Nama Tidak Diketahui",
+            namaUstadz: data.namaUstadz || "Nama Tidak Diketahui",
             email: data.email.replace(",", "."),
             kelas: data.kelas || "Kelas Tidak Diketahui",
             profileImageUrl: data.profileImageUrl || null,
@@ -50,7 +50,7 @@ function ProfileGuru() {
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <div className="text-center">
           {guruData.profileImageUrl ? <img src={guruData.profileImageUrl} alt="Foto Profil" className="w-20 h-20 mx-auto rounded-full mb-4" /> : <div className="w-20 h-20 mx-auto rounded-full mb-4 bg-gray-200"></div>}
-          <h2 className="text-xl font-semibold">{guruData.name}</h2>
+          <h2 className="text-xl font-semibold">{guruData.namaUstadz}</h2>
           <p className="text-gray-500">Email: {guruData.email}</p>
           <p className="text-gray-500">Kelas: {guruData.kelas}</p>
         </div>

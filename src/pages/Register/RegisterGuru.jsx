@@ -5,7 +5,7 @@ import { ref, get, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
 const RegisterGuru = () => {
-  const [name, setName] = useState("");
+  const [namaUstadz, setNamaUstadz] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -42,7 +42,7 @@ const RegisterGuru = () => {
 
           const userData = {
             email: email,
-            name: name,
+            namaUstadz: namaUstadz,
             kelas: "",
             registrationPending: true,
             approved: false,
@@ -89,8 +89,8 @@ const RegisterGuru = () => {
                 required
                 className="mt-1 p-3 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={namaUstadz}
+                onChange={(e) => setNamaUstadz(e.target.value)}
               />
             </div>
             <div>

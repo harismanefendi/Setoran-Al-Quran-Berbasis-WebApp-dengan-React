@@ -1,4 +1,3 @@
-import { Select, SelectItem } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { push, ref as dbRef, db } from "../config/firebase";
 import { onValue } from "firebase/database";
@@ -12,6 +11,7 @@ const QuranSetoranForm = () => {
   const [kelas, setKelas] = useState("");
   const [suratAwal, setSuratAwal] = useState("");
   const [ayatAwal, setAyatAwal] = useState("");
+  const [suratAkhir, setSuratAkhir] = useState("");
   const [ayatAkhir, setAyatAkhir] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [juz, setJuz] = useState("1");
@@ -19,7 +19,7 @@ const QuranSetoranForm = () => {
   const [uploadedFileUrl, setUploadedFileUrl] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState("");
-  const [status, setStatus] = useState("belum diperiksa");
+  const [status, setStatus] = useState("Belum Diperiksa");
 
   const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ const QuranSetoranForm = () => {
   };
 
   const validateForm = () => {
-    if (!email || !suratAwal || !ayatAwal || !ayatAkhir) {
+    if (!email || !suratAwal || !ayatAwal || !suratAkhir || !ayatAkhir) {
       setError("Semua field wajib diisi kecuali lampiran video.");
       return false;
     }
@@ -83,6 +83,7 @@ const QuranSetoranForm = () => {
       kelas,
       suratAwal,
       ayatAwal,
+      suratAkhir,
       ayatAkhir,
       inputValue, // Diperbarui untuk menggunakan inputValue
       juz,
@@ -133,26 +134,27 @@ const QuranSetoranForm = () => {
         </div>
 
         {/* Kelas */}
-        <div className="mb-6">
+        <div className="mb-4">
           <label htmlFor="kelas" className="block text-gray-600">
             Kelas:
           </label>
           <input type="text" id="kelas" value={kelas} onChange={(e) => setKelas(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" disabled />
         </div>
-        <div className="mb-2">
-          {/* Surat Awal */}
-          <div className="w-full">
-            <Select radius="sm" id="surahAwal" label="Surah" placeholder="Pilih Surah" selectionMode="multiple" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="rounded-none">
-              {data.surahs.map((surah) => (
-                <SelectItem key={surah.name} value={surah.name}>
-                  {surah.name}
-                </SelectItem>
-              ))}
-            </Select>
-          </div>
-        </div>
-
         <div className="flex space-x-3 items-center">
+          {/* Surat Awal */}
+          <div className="mb-4 w-full">
+            <label htmlFor="suratAwal" className="block text-gray-600">
+              Surat Awal:
+            </label>
+            <select id="suratAwal" value={suratAwal} onChange={(e) => setSuratAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
+              <option value="">Pilih Surat Awal</option>
+              {data.surahs.map((surah) => (
+                <option key={surah.number} value={surah.name}>
+                  {surah.number}. {surah.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* Ayat Awal */}
           <div className="mb-4 w-full">
             <label htmlFor="ayatAwal" className="block text-gray-600 ">
@@ -161,6 +163,23 @@ const QuranSetoranForm = () => {
             <div className="flex items-center">
               <input type="number" id="ayatAwal" value={ayatAwal} onChange={(e) => setAyatAwal(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" min="1" max="286" required />
             </div>
+          </div>
+        </div>
+
+        <div className="flex space-x-3 items-center">
+          {/* Surat Akhir */}
+          <div className="mb-4 w-full">
+            <label htmlFor="suratAkhir" className="block text-gray-600">
+              Surat Akhir:
+            </label>
+            <select id="suratAkhir" value={suratAkhir} onChange={(e) => setSuratAkhir(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required>
+              <option value="">Pilih Surat Akhir</option>
+              {data.surahs.map((surah) => (
+                <option key={surah.number} value={surah.name}>
+                  {surah.number}. {surah.name}
+                </option>
+              ))}
+            </select>
           </div>
           {/* Ayat Akhir */}
           <div className="mb-4 w-full">
@@ -192,11 +211,11 @@ const QuranSetoranForm = () => {
         </div>
 
         {/* Status */}
-        <div className="mb-4 rounded-sm">
+        <div className="mb-4">
           <label htmlFor="status" className="block text-gray-600">
             Status:
           </label>
-          <input type="text" id="status" value={status} className="w-full px-4 py-2 border focus:outline-none rounded-sm" readOnly />
+          <input type="text" id="status" value={status} className="w-full px-4 py-2 border rounded focus:outline-none" readOnly />
         </div>
 
         {/* Nama Ustadz */}

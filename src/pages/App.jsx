@@ -53,6 +53,8 @@ import Edit from "./HomeAdmin/Berita/Edit";
 import EditArticle from "./HomeAdmin/Berita/EditArticle";
 import ApprovalPageSiswa from "./HomeAdmin/Persetujuan/PersetujuanSiswa";
 import NavbarAdmin from "./HomeAdmin/NavbarAdmin";
+import LaporanRiwayat from "./HomeSiswa/LaporanRiwayat";
+import LaporanRiwayat2 from "./HomeSiswa/LaporanRiwayat2";
 
 function App() {
   useEffect(() => {
@@ -80,6 +82,8 @@ function App() {
           <Route path="/file" element={<FileUpload />} />
           <Route path="/feedback-siswa" element={<FeedbackSiswa />} />
           <Route path="/riwayat" element={<Riwayat />} />
+          <Route path="/download-form" element={<LaporanRiwayat />} />
+          <Route path="/download-form2" element={<LaporanRiwayat2 />} />
 
           <Route path="/home/login" element={<Home />} />
 
@@ -94,14 +98,7 @@ function App() {
           <Route path="/edit-profile" element={<EditProfile />} />
 
           <Route path="/halaman-admin" element={<HalamanAdmin />} />
-          <Route
-            path="/setoran"
-            element={
-              <PrivateRoute>
-                <QuranSetoranForm />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/setoran" element={<QuranSetoranForm />} />
           <Route path="/futureclass" element={<Hello />} />
 
           <Route path="/*" element={<NotFound />} />
