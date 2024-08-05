@@ -53,7 +53,9 @@ function GuruLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">Login</h2>
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">
+          Login <br /> Sebagai Guru
+        </h2>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -91,19 +93,19 @@ function GuruLogin() {
           </div>
 
           <div className="">
-            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="submit" className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-biru focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign in
             </button>
           </div>
           <div className="text-center">
-            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 text-biru hover:underline focus:outline-none">
               Lupa Sandi?
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <button type="button" onClick={() => navigate("/register-guru")} className="text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/register-guru")} className="text-biru hover:underline focus:outline-none">
               Register now
             </button>
           </div>

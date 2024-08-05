@@ -1,8 +1,7 @@
 const { nextui } = require("@nextui-org/react");
+const defaultConfig = require("tailwindcss/defaultConfig");
 
-import defaultConfig from "tailwindcss/defaultConfig"; // Import konfigurasi default Tailwind
-
-export default {
+module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -13,7 +12,14 @@ export default {
         hijautarang: "#6ADAC2",
         hijaukalam: "#00B790",
         bronze: "#964B00",
-        greendark: "#263E3E",
+        //setoran color
+        greendark: "#1C422D",
+        biru: "#042E33",
+        krem: "#EFEFCD",
+        kuning: "#F5CE12",
+        hijau: "#8CB120",
+        hijaupakek: "#05704E",
+        //
         greenlight: "B3BA91",
         whitesedang: "F4F5EF",
         merahtua: "#FF0000",
@@ -26,7 +32,6 @@ export default {
         andika: ["Andika"],
       },
       fontSize: {
-        // Tambahkan fontSize dari konfigurasi pertama di sini
         ...defaultConfig.theme.fontSize,
         sm: ["14px", "20px"],
         base: ["16px", "24px"],
@@ -42,6 +47,7 @@ export default {
   },
   darkMode: "class",
   plugins: [
+    // require("@tailwindcss/forms"),
     nextui({
       addCommonColors: true,
       themes: {
@@ -53,7 +59,7 @@ export default {
         },
         dark: {
           colors: {
-            customColor: "#FFAABB", // Tetapkan warna yang sesuai untuk tema gelap
+            customColor: "#FFAABB",
             anotherCustomColor: "#CCDDFF",
           },
         },

@@ -218,13 +218,13 @@ const QuranSetoranForm = () => {
           <input type="text" id="status" value={status} className="w-full px-4 py-2 border rounded focus:outline-none" readOnly />
         </div>
 
-        {/* Nama Ustadz */}
+        {/* Nama Ustadz
         <div className="mb-4">
           <label htmlFor="namaUstadz" className="block text-gray-600">
             Nama Ustadz:
           </label>
           <input type="text" id="namaUstadz" value={namaUstadz} onChange={(e) => setNamaUstadz(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
-        </div>
+        </div> */}
 
         {/* Upload File */}
         <div className="mb-4 w-full">

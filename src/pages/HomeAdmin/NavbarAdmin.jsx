@@ -80,13 +80,13 @@ const NavbarAdmin = () => {
   return (
     <nav className="text-white z-50 text-base p-2 sticky top-0 bg-gradient-to-r from-green-500 to-blue-500">
       <ul className="flex flex-col sm:flex-row justify-between max-w-4xl mx-auto">
-        <li className={`relative p-2 hover:bg-blue-600 ${location.pathname.includes("/data-guru") ? "bg-blue-600" : ""}`}>
+        <li className={`relative p-2 hover:bg-blue-600 rounded-lg ${location.pathname.includes("/data-guru") ? "bg-blue-600" : ""}`}>
           <Link to="/dataguru" onClick={closeAllDropdowns}>
             Guru
           </Link>
         </li>
 
-        <li className={`relative p-2 hover:bg-blue-600 ${location.pathname.includes("/kelas") ? "bg-blue-600" : ""}`}>
+        <li className={`relative pl-2 pr-3 py-2 hover:bg-blue-600 rounded-lg ${location.pathname.includes("/kelas") ? "bg-blue-600" : ""}`}>
           <button className="flex items-center justify-between" onClick={handleAcceptedClick}>
             <span>Siswa</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -98,7 +98,7 @@ const NavbarAdmin = () => {
             </svg>
           </button>
           {isAcceptedOpen && (
-            <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2 z-10">
+            <ul className="bg-white text-blue-500 rounded-lg p-2 shadow-lg absolute left-0 mt-2 z-10">
               {[1, 2, 3, 4, 5, 6].map((kelas) => (
                 <li key={kelas} className="hover:bg-blue-100 p-2">
                   <Link
@@ -114,10 +114,10 @@ const NavbarAdmin = () => {
           )}
         </li>
 
-        <li className={`relative p-2 hover:bg-blue-600 ${location.pathname.includes("/setoran") ? "bg-blue-600" : ""}`}>
+        <li className={`relative py-2 pr-4 pl-2 rounded-lg hover:bg-blue-600 ${location.pathname.includes("/setoran") ? "bg-blue-600" : ""}`}>
           <button onClick={handleRepeatedClick}>{`Setoran`}</button>
           {isRepeatedOpen && (
-            <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2 z-10">
+            <ul className="bg-white text-blue-500 rounded-lg shadow-lg absolute left-0 mt-2 z-10">
               {[1, 2, 3, 4, 5, 6].map((kelas) => (
                 <li key={kelas} className="hover:bg-blue-100 p-2">
                   <Link
@@ -133,7 +133,7 @@ const NavbarAdmin = () => {
           )}
         </li>
         {/* Tambahkan button untuk dropdown riwayat */}
-        <li className={`relative p-2 hover:bg-blue-600 ${location.pathname.includes("/riwayat") ? "bg-blue-600" : ""}`}>
+        <li className={`relative p-2 rounded-lg hover:bg-blue-600 ${location.pathname.includes("/riwayat") ? "bg-blue-600" : ""}`}>
           <button onClick={handleHistoryClick}>{`Lainnya`}</button>
           {isHistoryOpen && (
             <ul className="bg-white text-blue-500 p-2 rounded shadow-lg absolute left-0 mt-2 z-10">
@@ -177,7 +177,7 @@ const NavbarAdmin = () => {
             </ul>
           )}
         </li>
-        <li className={`relative p-2 hover:bg-blue-600 ${location.pathname.includes("/profile-admin") ? "bg-blue-600" : ""}`}>
+        <li className={`relative p-2 rounded-lg hover:bg-blue-600 ${location.pathname.includes("/profile-admin") ? "bg-blue-600" : ""}`}>
           <Link to="/profile-admin" onClick={closeAllDropdowns}>
             Profil
           </Link>

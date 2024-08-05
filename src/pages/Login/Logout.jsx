@@ -26,6 +26,8 @@ const Logout = () => {
         fill="currentColor"
         fill-rule="evenodd"
         clip-rule="evenodd"
+        stroke="currentColor"
+        stroke-width="1"
       ></path>
     </svg>
   );

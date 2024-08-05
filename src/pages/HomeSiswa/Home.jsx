@@ -2,14 +2,37 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 import AppName from "../../components/AppName/AppName";
-import AnimatedButton from "../../components/button/Button";
+import Card from "../../components/button/Card";
 import NavigationBar from "./Navigate/NavigationBar";
-import Logout from "../Login/Logout";
 import confetti from "canvas-confetti";
+import record3d from "../../assets/record3d.png";
+import news from "../../assets/news.png";
+import download from "../../assets/download.png";
+import rangking from "../../assets/ranking.png";
+import Logo from "../../components/logo/LogoStyled";
+import ProfilNav from "./ProfilNav/ProfilNav";
+import styled, { keyframes } from "styled-components";
+import Footer from "../../components/Footer/footer";
 
 function Home() {
   const [showAlert, setShowAlert] = useState(true);
   const navigate = useNavigate();
+
+  const headShake = keyframes`
+  0% { transform: rotate(0deg) skew(0deg, 0deg); }
+  25% { transform: rotate(-3deg) skew(-1deg, 0deg); }
+  50% { transform: rotate(3deg) skew(1deg, 0deg); }
+  75% { transform: rotate(-3deg) skew(-1deg, 0deg); }
+  100% { transform: rotate(0deg) skew(0deg, 0deg); }
+`;
+
+  const ShakingWord = styled.span`
+    display: inline-block;
+    animation: ${headShake} 1.5s ease-in-out infinite;
+    transform-origin: bottom;
+    margin-right: 0.3rem; /* Spasi antar kata */
+    animation-delay: ${(props) => props.delay}s;
+  `;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,41 +46,38 @@ function Home() {
   };
 
   return (
-    <div>
-      <div className="font-bold text-gray-700 top-0 right-0 m-2 hover:text-red-400 fixed" title="Keluar?">
-        <Logout />
+    <div className="mb-24">
+      <div className="">
+        <ProfilNav />
       </div>
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <div className="text-center">
+        <div className="text-center -mb-4">
           <AppName>
-            <div className="app-title font-extrabold" style={{ color: "gold" }}>
-              HSQOnline
+            <Logo />
+            <div className="app-title -mt-10 font-sans font-extrabold" style={{ color: "#042E33" }}>
+              <span className="">HSQOnline</span>
             </div>
-            <div className="app-subtitle font-andika font-extrabold">
-              <span className="">Hayyuk</span> Setor Quran Online
+            <div className="app-subtitle -mt-2 font-andika font-extrabold text-5xl" style={{ color: "#042E33" }}>
+              <ShakingWord className="from-green-500 font-extrabold to-blue-500 bg-clip-text p-1 text-transparent bg-gradient-to-r">Hayyuk</ShakingWord> Setor Quran Online
             </div>
           </AppName>
         </div>
-        <div className="text-center font-andika">
-          <p className="mt-4 text-sm md:text-lg lg:text-lg italic ">Assalamu'alaikum Warahmatullahi Wabarakatuh,</p>
-          <p className="text-sm px-3 md:text-lg lg:text-lg ">Selamat datang di Halaman Utama Setoran Hafalan. Kami mengundang Anda untuk menjelajahi beragam fitur yang kami tawarkan, sesuaikan dengan kebutuhan Anda.</p>
+        <div className="text-center text-biru font-andika">
+          <p className="text-md md:bg-transparent md:text-lg lg:text-lg text-biru bg-kuning italic">السلام عليكم ورحمة الله وبركاته</p>
+          <p className="mb-1 text-sm px-3 md:text-lg lg:text-lg">
+            Selamat datang di Halaman Utama Setoran Hafalan. Bergabunglah dengan kami dan temukan kemudahan dalam menghafal Al-Qur'an. Mari tingkatkan hafalan Anda dengan semangat dan dedikasi.
+          </p>
         </div>
 
-        <div className="mt-4 flex flex-col space-y-4 font-andika">
-          <AnimatedButton className="" onClick={() => navigate("/setoran")}>
-            Setoran Rekaman
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-6 h-6">
-              <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z" />
-              <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z" />
-            </svg>
-          </AnimatedButton>
-          <AnimatedButton className="" onClick={() => navigate("/info-terkini")}>
-            Tips Mudah Menghafal
-          </AnimatedButton>
-          <AnimatedButton className="" onClick={() => navigate("/riwayat")}>
-            Riwayat Hafalan
-          </AnimatedButton>
-          <AnimatedButton onClick={() => navigate("/hafiz-rank")}>Hafizh Rank</AnimatedButton>
+        <div className="mt-4 flex gap-2 font-andika text-biru">
+          <div className="gap-2 md:flex-row flex flex-col">
+            <Card title="Setoran Rekaman" onClick={() => navigate("/setoran")} icon={record3d} />
+            <Card title="Artikel" onClick={() => navigate("/info-terkini")} icon={news} />
+          </div>
+          <div className="flex md:flex-row flex-col gap-2">
+            <Card title="Laporan" onClick={() => navigate("/pdfswitcher")} icon={download} />
+            <Card title="Hafizh Ranking" onClick={() => navigate("/hafiz-rank")} icon={rangking} />
+          </div>
         </div>
         <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
           <NavigationBar />
@@ -70,7 +90,8 @@ function Home() {
               <button
                 className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={() => {
-                  setShowAlert(false), handleConfetti();
+                  setShowAlert(false);
+                  handleConfetti();
                 }}
               >
                 Tutup
@@ -78,6 +99,9 @@ function Home() {
             </div>
           </div>
         )}
+      </div>
+      <div className="-mt-28">
+        <Footer />
       </div>
     </div>
   );

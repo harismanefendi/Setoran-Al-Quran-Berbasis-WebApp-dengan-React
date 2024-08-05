@@ -11,9 +11,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showSpinner, setShowSpinner] = useState(true); // State baru
+  const [showSpinner, setShowSpinner] = useState(true);
   const navigate = useNavigate();
-  const { login } = useAuth(); // Gunakan useAuth
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,44 +22,32 @@ function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Mengganti titik di email dengan koma
       const emailKey = user.email.replace(/\./g, ",");
 
-      // Mengambil data pengguna dari Firebase Database
       const userRef = ref(db, `siswa/${emailKey}`);
-      get(userRef)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const userData = snapshot.val();
-            localStorage.setItem("user", JSON.stringify(userData));
-            login(); // Mengatur status isAuthenticated menjadi true
-            navigate("/home/login"); // Arahkan ke halaman home
-          } else {
-            // Pengguna tidak ditemukan di tabel siswa
-            alert("Anda belum terdaftar sebagai siswa. Silakan registrasi terlebih dahulu.");
-          }
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          console.error("Error fetching user data:", error);
-        });
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        localStorage.setItem("user", JSON.stringify(userData));
+        login();
+        navigate("/home/login");
+      } else {
+        alert("Anda belum terdaftar sebagai siswa. Silakan registrasi terlebih dahulu.");
+      }
       setIsLoading(false);
     } catch (error) {
       console.error("Error:", error.message);
-      if (error.code === "auth/user-not-found") {
-        alert("Email atau password salah. Silakan coba lagi.");
-      } else {
-        alert("Email atau password salah. Silakan coba lagi.");
-        setShowSpinner(false); // Atur showSpinner menjadi false
-      }
+      alert("Email atau password salah. Silakan coba lagi.");
+      setShowSpinner(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="font-body min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
-          Login <br /> Saja kita liat aja nanti
+          Login <br /> Sebagai Siswa
         </h2>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -96,22 +84,20 @@ function Login() {
               />
             </div>
           </div>
-
-          <div className="">
-            <ButtonSpinner buttonText={"Sign in"} isLoading={isLoading && showSpinner} /> {/* Memperbarui kondisi */}
+          <div>
+            <ButtonSpinner buttonText={"Sign in"} isLoading={isLoading && showSpinner} />
           </div>
-          <div className="text-center">
-            <button type="button" onClick={() => navigate("/forgot-password")} className="mt-0 px-2 text-indigo-600 hover:underline focus:outline-none">
+          <div className="flex justify-between">
+            <button type="button" onClick={() => navigate("/forgot-password")} className="text-biru hover:underline focus:outline-none">
               Lupa Sandi?
             </button>
-            <button type="button" onClick={() => navigate("/delete")} className="mt-0 text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/delete")} className="text-biru hover:underline focus:outline-none">
               Hapus Akun?
             </button>
           </div>
-
           <div className="text-center">
             <p className="text-sm text-gray-600">Don't have an account?</p>
-            <button type="button" onClick={() => navigate("/register")} className="text-indigo-600 hover:underline focus:outline-none">
+            <button type="button" onClick={() => navigate("/register")} className="text-biru hover:underline focus:outline-none">
               Register now
             </button>
           </div>

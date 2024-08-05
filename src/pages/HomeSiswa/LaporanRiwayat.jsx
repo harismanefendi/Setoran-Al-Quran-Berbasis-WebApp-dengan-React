@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Document, Font, Image, Page, Text, View, StyleSheet, PDFViewer } from "@react-pdf/renderer";
+import { Document, Font, Image, Page, Text, View, StyleSheet, PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { getDatabase, ref as dbRef, get, onValue } from "firebase/database";
 import logo from "../../assets/logoUIN.png";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
-
-Font.register({ family: "Averia Serif Libre", src: "http://fonts.gstatic.com/s/averiaseriflibre/v5/fdtF30xa_Erw0zAzOoG4BeKzPr0x8JMzFIz_Js1kWgQ.ttf" });
 
 function LaporanRiwayat() {
   const [userData, setUserData] = useState(null);
@@ -99,7 +97,6 @@ function LaporanRiwayat() {
     page: {
       flexDirection: "column",
       padding: 10,
-      fontFamily: "Averia Serif Libre",
     },
     section: {
       margin: 10,
@@ -332,10 +329,17 @@ function LaporanRiwayat() {
   }
 
   return (
-    <div className="">
-      <PDFViewer width="100%" height="600px">
-        {pdfData}
-      </PDFViewer>
+    <div>
+      {!userData ? (
+        <LoadingSpinner />
+      ) : (
+        <div>
+          <PDFDownloadLink document={pdfData} fileName="form_penilaian_hafalan.pdf">
+            {({ blob, url, loading, error }) => (loading ? "Loading document..." : <button className="btn btn-primary">Download PDF</button>)}
+          </PDFDownloadLink>
+          <PDFViewer style={{ width: "100%", height: "90vh" }}>{pdfData}</PDFViewer>
+        </div>
+      )}
     </div>
   );
 }

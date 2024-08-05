@@ -110,6 +110,11 @@ function HalamanDiterima() {
       <div className="fixed inset-x-0 bottom-0 bg-white py-3 px-2 shadow-lg">
         <NavigationBar />
       </div>
+      <div>
+        <br />
+        <br />
+        <br />
+      </div>
     </div>
   );
 }

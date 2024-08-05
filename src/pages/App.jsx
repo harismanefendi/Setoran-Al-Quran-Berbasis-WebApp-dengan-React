@@ -55,6 +55,8 @@ import ApprovalPageSiswa from "./HomeAdmin/Persetujuan/PersetujuanSiswa";
 import NavbarAdmin from "./HomeAdmin/NavbarAdmin";
 import LaporanRiwayat from "./HomeSiswa/LaporanRiwayat";
 import LaporanRiwayat2 from "./HomeSiswa/LaporanRiwayat2";
+import LaporanPerKelas from "./HomeGuru/Laporan/LaporanPerKelas";
+import PDFSwitcher from "./HomeSiswa/PDFSwitcher";
 
 function App() {
   useEffect(() => {
@@ -84,6 +86,7 @@ function App() {
           <Route path="/riwayat" element={<Riwayat />} />
           <Route path="/download-form" element={<LaporanRiwayat />} />
           <Route path="/download-form2" element={<LaporanRiwayat2 />} />
+          <Route path="/pdfswitcher" element={<PDFSwitcher />} />
 
           <Route path="/home/login" element={<Home />} />
 
@@ -100,6 +103,7 @@ function App() {
           <Route path="/halaman-admin" element={<HalamanAdmin />} />
           <Route path="/setoran" element={<QuranSetoranForm />} />
           <Route path="/futureclass" element={<Hello />} />
+          <Route path="/laporanperkelas" element={<LaporanPerKelas />} />
 
           <Route path="/*" element={<NotFound />} />
           <Route

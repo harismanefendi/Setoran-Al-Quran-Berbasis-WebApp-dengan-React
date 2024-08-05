@@ -168,7 +168,7 @@ const QuranSetoranForm = () => {
               Ayat Akhir:
             </label>
             <div className="flex items-center">
-              <input type="number" id="ayatAkhir" value={ayatAkhir} onChange={(e) => setAyatAkhir(e.target.value)} className="w-full px-4 py-2 border rounded-l focus:outline-none focus:border-blue-400" min="1" max="286" required />
+              <input type="number" id="ayatAkhir" value={ayatAkhir} onChange={(e) => setAyatAkhir(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" min="1" max="286" required />
             </div>
           </div>
         </div>
@@ -200,12 +200,12 @@ const QuranSetoranForm = () => {
         </div>
 
         {/* Nama Ustadz */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label htmlFor="namaUstadz" className="block text-gray-600">
             Nama Ustadz:
           </label>
           <input type="text" id="namaUstadz" value={namaUstadz} onChange={(e) => setNamaUstadz(e.target.value)} className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-400" required />
-        </div>
+        </div> */}
 
         {/* Upload File */}
         <div className="mb-4 w-full">
